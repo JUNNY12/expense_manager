@@ -46,7 +46,7 @@ function RoutesConfig() {
 
     const isPrivate = (route) => route.private;
 
-    const [user, setUser] = useState(true);
+    const [user, setUser] = useState(false);
 
     const redirect = () => {
         navigate('/login');
