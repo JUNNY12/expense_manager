@@ -9,6 +9,15 @@
     background: linear-gradient(to left, #d59983, #bdb3b3);
 }
 
+.loginFormWrap,
+.registerFormWrap
+{
+    margin-top: -80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .loginInput,
 .registerInput,
 .registerBtn,
