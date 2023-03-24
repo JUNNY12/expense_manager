@@ -1,0 +1,189 @@
+.loginWrapper ,
+.registerWrapper{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    background: linear-gradient(to left, #d59983, #bdb3b3);
+}
+
+.loginInput,
+.registerInput,
+.registerBtn,
+.loginBtn {
+    width: 300px;
+    height: 2.5em;
+    border: none;
+    outline: none;
+}
+
+.inputWrapper {
+    display: flex;
+    position: relative;
+}
+
+.eye{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    outline: none;
+}
+.iconWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: 35px;
+    width: 35px;
+    color: #504e4e;
+}
+
+.userIcon {
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.loginInput:focus ,
+.registerInput:focus {
+    border-left: 4px solid #e1b7a8;
+    background-color: white;
+    transition: .3s ease-in-out;
+}
+
+.loginInput,
+.registerInput {
+    text-indent: 8px;
+    background-color: white;
+    height: 35px;
+}
+
+.loginInput::placeholder,
+.registerInput::placeholder {
+    color: #504e4e;
+    font-weight: 500;
+}
+
+.ques {
+    color: white;
+}
+
+.formHeader{
+    color:#504e4e;
+    margin-bottom: 1.5rem;
+}
+
+
+.loginBtn ,
+.registerBtn {
+    background-color: transparent;
+    width: 335px;
+    color: white;
+    font-weight: 600;
+    transition: 0.3s linear;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+}
+
+.check {
+    font-size: 14px;
+    color: #504e4e;
+}
+
+.btn-2 {
+    background: white;
+    background: linear-gradient(0deg, #e1b7a8 0%, #d59983 100%);
+    border: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-2:before {
+    height: 0%;
+    width: 2px;
+}
+
+.btn-2:hover {
+    box-shadow: 4px 2px 6px 0 rgba(255, 255, 255, .5),
+        -2px -2px 0px 0 rgba(116, 125, 136, .5),
+        inset -2px -2px 4px 0 rgba(255, 255, 255, .2),
+        inset 4px 2px 4px 0 rgba(0, 0, 0, .4);
+}
+
+.loginBtn:hover,
+.registerBtn:hover {
+    border: 1px solid #e1b7a8;
+    transition: .3s ease-in-out;
+    background: linear-gradient(0deg, #e1b7a8 0%, #d59983 100%);
+}
+
+
+.signUp {
+    cursor: pointer;
+    border-bottom: 2px solid #504e4e;
+    color: #504e4e;
+  }
+  
+  .dont{
+    color: #504e4e;
+    text-align: center;
+  }
+  
+  .google{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 335px;
+    cursor: pointer;
+    color: #504e4e;
+    font-weight: 600;
+  }
+
+@media all and (max-width: 600px) {
+    .loginInput,
+    .registerInput,
+    .registerBtn,
+    .loginBtn {
+        width: 250px;
+    }
+
+    .loginBtn ,
+    .registerBtn{
+        width: 285px;
+    }
+    .loginWrapper,
+    .registerWrapper {
+        background: linear-gradient(to bottom, #d59983, #bdb3b3);
+      }
+      
+      .google{
+        width: 285px;
+      }
+      .ques{
+        font-size: 14px;
+      }
+      .formHeader{
+        font-size: 22px;
+      }
+}
+
+@media all and (max-width: 319px) {
+    .loginInput,
+    .registerInput,
+    .registerBtn,
+    .loginBtn,
+    .google{
+        width: 100%;
+    }
+    
+
+    
+}

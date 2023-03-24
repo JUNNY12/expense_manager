@@ -1,0 +1,21 @@
+{
+  "short_name": "E-MAN",
+  "name": "Expense Manager",
+  "icons": [
+  
+    {
+      "src": "Expense_Tracker_1_192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "Expense_Tracker_512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#f5f5f5",
+  "background_color": "#c77253"
+}
