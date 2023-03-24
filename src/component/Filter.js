@@ -6,17 +6,18 @@ const Filter = () => {
     const [show, setShow] = useState(false)
 
     return (
-        <div className='filter px-3 py-3'>
-            <div className='topFilter mb-2'>
-                <h1 className='fs-5'>Filter expenses</h1>
+        <div className='filter px-2 py-2'>
+            <div className='topFilter'>
+                <h1 className='fs-5 filterHead'>Filter expenses</h1>
                 <div className='showButton fs-3' >
                     <button
                         onClick={() => setShow(prev => !prev)}
                     ><BiDownArrow /></button>
                 </div>
             </div>
+
             <div className={show ? "filterContainer" : "hideFilterContainer"}>
-                <form className=''>
+                <form className='mt-4 p-3'>
                     <div>
                         <input
                             type={`radio`}
@@ -32,17 +33,17 @@ const Filter = () => {
                             type={`radio`}
                             name="status"
                         />
-                        <label>Inprogress</label>
+                        <label>New</label>
                     </div>
 
                     <div>
                         <input
                             className='me-3'
                             name="status"
-                            type={`radio`}
+                            type={`checkbox`}
 
                         />
-                        <label>New</label>
+                        <label>Inprogress</label>
                     </div>
 
                     <div className='minMax d-flex'>
@@ -52,7 +53,6 @@ const Filter = () => {
                             <input
                                 className='min'
                                 type={`number`}
-
                             />
                         </div>
                         <div className='dash'></div>
@@ -95,7 +95,7 @@ const Filter = () => {
                         </select>
                     </div>
 
-                    <div className='mt-5'>
+                    <div className='mt-5 d-flex align-items-center justify-content-center'>
                         <button
                             className='clearFilter'
                         >Clear Filter</button>

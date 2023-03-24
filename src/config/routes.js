@@ -1,16 +1,14 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Login from "../page/auth/Login";
 import NotFound from "../page/notfound/NotFound";
 import Nav from "../component/Nav";
 import React, { useEffect, useState } from "react";
-import Loader from "../component/Loader";
+
 
 const LazyHome = React.lazy(() => import('../page/Home/Home'));
 const LazyRegister = React.lazy(() => import('../page/auth/Register'));
 const LazProfile = React.lazy(() => import('../page/profile/Profile'));
 const LazyLogin = React.lazy(() => import('../page/auth/Login'));
 
-let user = false;
 
 function Routes() {
     return [
@@ -46,7 +44,7 @@ function RoutesConfig() {
 
     const isPrivate = (route) => route.private;
 
-    const [user, setUser] = useState(false);
+    const [user] = useState(true);
 
     const redirect = () => {
         navigate('/login');

@@ -54,47 +54,55 @@ const Profile = () => {
                             name="displayName"
                             id="displayName" 
                             value={displayName}
+                            onChange={handleValueChange}
                             />
                     </div>
 
-                    <div className="profileInput">
+                    <div className="profileInput mt-3">
                         <label htmlFor="email">Email</label>
                         <input 
                         type="email"
                          name="email"
                           id="email" 
-                          value={email
-                          }/>
+                          value={email}
+                          onChange={handleValueChange}
+                          />
                     </div>
 
-                    <div className="profileInput">
+                    <div className="profileInput mt-3">
                         <label htmlFor="firstName">First Name</label>
                         <input 
                         type="text"
                          name="firstName"
                           id="firsName" 
                           value={firstName}
+                          onChange={handleValueChange}
                           />
                     </div>
 
-                    <div className="profileInput">
+                    <div className="profileInput mt-3">
                         <label htmlFor="lastName">Last Name</label>
                         <input 
                         type="text"
                          name="lastName"
                           id="lastName"
                           value={lastName}
+                            onChange={handleValueChange}
+
                           />
                     </div>
 
-                    <div className="profileInput">
+                    <div className="profileInput mt-3">
                         <label htmlFor="address">Address</label>
                         <textarea 
-                        name="address"
-                         id="address"></textarea>
+                            name="address"
+                            value={address}
+                            id="address"
+                            onChange={handleValueChange}
+                            />
+                        
                     </div>
-
-                    <button>Save Changes</button>
+                    <button className="mt-3">Save Changes</button>
                 </form>
 
             </div>

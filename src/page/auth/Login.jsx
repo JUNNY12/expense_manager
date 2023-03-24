@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { useNavigate, Link, Navigate } from 'react-router-dom'
+import { useNavigate, Link} from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { EmailIcon, UserLoginIcon, PasswordIcon, GoogleIcon, EyeIcon, EyeSlashIcon } from '../../asset/icon/Icon'
 import "../../asset/styles/auth/auth.css"
@@ -18,10 +18,8 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisiblity = () => {
         setShowPassword(!showPassword)
-        console.log('hello')
     }
-
-
+    
     const inputType = showPassword ? 'text' : 'password'
 
     const inputRef = useRef(null)

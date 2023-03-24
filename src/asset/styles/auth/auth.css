@@ -1,5 +1,5 @@
-.loginWrapper ,
-.registerWrapper{
+.loginWrapper,
+.registerWrapper {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -10,14 +10,14 @@
 }
 
 .loginFormWrap,
-.registerFormWrap
-{
-    margin-top: -80px;
+.registerFormWrap {
+    margin-top: -100px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+
 .loginInput,
 .registerInput,
 .registerBtn,
@@ -33,14 +33,16 @@
     position: relative;
 }
 
-.eye{
+.eye {
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
     border: none;
     outline: none;
+    background-color: transparent;
 }
+
 .iconWrap {
     display: flex;
     justify-content: center;
@@ -56,7 +58,7 @@
     margin-bottom: 2rem;
 }
 
-.loginInput:focus ,
+.loginInput:focus,
 .registerInput:focus {
     border-left: 4px solid #e1b7a8;
     background-color: white;
@@ -80,13 +82,13 @@
     color: white;
 }
 
-.formHeader{
-    color:#504e4e;
+.formHeader {
+    color: #504e4e;
     margin-bottom: 1.5rem;
 }
 
 
-.loginBtn ,
+.loginBtn,
 .registerBtn {
     background-color: transparent;
     width: 335px;
@@ -137,14 +139,14 @@ a {
     cursor: pointer;
     border-bottom: 2px solid #504e4e;
     color: #504e4e;
-  }
-  
-  .dont{
+}
+
+.dont {
     color: #504e4e;
     text-align: center;
-  }
-  
-  .google{
+}
+
+.google {
     background-color: white;
     display: flex;
     justify-content: center;
@@ -154,9 +156,10 @@ a {
     cursor: pointer;
     color: #504e4e;
     font-weight: 600;
-  }
+}
 
 @media all and (max-width: 600px) {
+
     .loginInput,
     .registerInput,
     .registerBtn,
@@ -164,35 +167,39 @@ a {
         width: 250px;
     }
 
-    .loginBtn ,
-    .registerBtn{
+    .loginBtn,
+    .registerBtn {
         width: 285px;
     }
+
     .loginWrapper,
     .registerWrapper {
         background: linear-gradient(to bottom, #d59983, #bdb3b3);
-      }
-      
-      .google{
+    }
+
+    .google {
         width: 285px;
-      }
-      .ques{
+    }
+
+    .ques {
         font-size: 14px;
-      }
-      .formHeader{
+    }
+
+    .formHeader {
         font-size: 22px;
-      }
+    }
 }
 
 @media all and (max-width: 319px) {
+
     .loginInput,
     .registerInput,
     .registerBtn,
     .loginBtn,
-    .google{
+    .google {
         width: 100%;
     }
-    
 
-    
+
+
 }

@@ -1,12 +1,12 @@
 import { useRef, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
-import { EmailIcon, UserLoginIcon, PasswordIcon, GoogleIcon, User } from '../../asset/icon/Icon'
+import { EyeIcon, EyeSlashIcon, EmailIcon, UserLoginIcon, PasswordIcon, GoogleIcon, User } from '../../asset/icon/Icon'
 import "../../asset/styles/auth/auth.css"
+import { useState } from 'react'
 
 
 const Register = () => {
-  const navigate = useNavigate()
 
   const [values, handleValueChange] = useForm({
     password: '',
@@ -14,6 +14,12 @@ const Register = () => {
     username: ''
   })
 
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisiblity = () => {
+    setShowPassword(!showPassword)
+  }
+  
+  const inputType = showPassword ? 'text' : 'password'
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -77,10 +83,22 @@ const Register = () => {
               name='password'
               value={password}
               onChange={handleValueChange}
-              type={`password`}
+              type={inputType}
               aria-label='password'
               placeholder='Enter your password'
             />
+            <button
+              disabled={password.length === 0}
+              className='eye'
+              type='button'
+              onClick={togglePasswordVisiblity}
+            >
+              {showPassword ?
+                <EyeSlashIcon />
+                :
+                <EyeIcon />
+              }
+            </button>
           </div>
 
           <button className='registerBtn btn-2'>Register</button>

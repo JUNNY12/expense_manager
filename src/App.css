@@ -16,6 +16,29 @@ html {
   scroll-behavior: smooth;
 }
 
+.profileLogout {
+  display: flex;
+}
+
+.profile {
+  margin-right: 2em;
+}
+
+.profile ,
+.logout
+{
+  outline: none;
+  border: none;
+  padding: 0.3em;
+  color: var(--primary-color);
+  transform: scale(1.5);
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
 .loader {
   display: flex;
   justify-content: center;
@@ -24,7 +47,7 @@ html {
 }
 
 .navWrapper {
-  background: var(--primary-color);
+  background: linear-gradient(to bottom, #d59983, #bdb3b3);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,32 +59,14 @@ html {
   z-index: 1;
 }
 
-
-
 .logoName {
   font-size: 2em;
   font-weight: bold;
+  cursor: pointer;
 }
-
-
 
 .connect {
   margin-top: 5em;
-}
-
-
-.logout {
-  outline: none;
-  border: none;
-  padding: 0.3em;
-  color: var(--primary-color);
-  transform: scale(2);
-  cursor: pointer;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
 }
 
 .homeContainer {
@@ -255,10 +260,6 @@ label {
   font-size: clamp(1.3em, 2.5vw, 2em);
 }
 
-
-
-
-
 .homeContainer .tableResponsive {
   overflow-x: auto;
 }
@@ -271,10 +272,10 @@ label {
 }
 
 .filter {
-  background-color: #c77253;
+  background: linear-gradient(to bottom, #d59983, #bdb3b3);
   position: fixed;
-  height: 100%;
 }
+
 
 .clearFilter {
   outline: none;
@@ -282,13 +283,16 @@ label {
   background: #f5f5f5;
   color: #c77253;
   padding: 0.5em;
-  width: 100%;
+  width: 150px;
+  height: 35px;
   text-align: center;
 }
 
 .merchantInput {
-  width: 100%;
+  width: 250px;
+  height: 35px;
   outline: none;
+
   border: 1px solid #c77253;
 }
 
@@ -308,15 +312,17 @@ label {
 
 .min,
 .max {
-  width: 3em;
+  width: 80px;
   outline: none;
   border: 1px solid #c77253;
+  height: 35px;
 
 }
 
 .dateInput {
   border: 1px solid #c77253;
   outline: none;
+  height: 35px;
 }
 
 .receiptContainer {
@@ -342,17 +348,29 @@ label {
   outline: none;
   color: #c77253;
   border: none;
-  width: 3em;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .topFilter {
   display: flex;
   align-items: center;
+  padding: 1rem;
   justify-content: space-between;
+  height: 15px;
 }
 
 .filterContainer {
   display: block;
+  transition: .5s ease-in-out;
+  color: #504e4e;
+}
+
+.filterHead{
+  color:#504e4e ;
 }
 
 @media all and (max-width:1250px) {
@@ -362,7 +380,7 @@ label {
 
   .filter {
     position: relative;
-    margin: 2%;
+    margin: 0 2% 0 2%;
   }
 
   .showButton {
@@ -372,6 +390,7 @@ label {
 
   .hideFilterContainer {
     display: none;
+    transition: .5s ease-in-out;
   }
 
 }
@@ -453,15 +472,14 @@ label {
   }
 
   .logoName {
-    font-size: 1.1em;
+    font-size: 1em;
   }
 
   .profile {
-    margin-right: 3em;
-    transform: scale(1.5);
+    transform: scale(1);
   }
 
   .logout {
-    transform: scale(1.5);
+    transform: scale(1);
   }
 }
