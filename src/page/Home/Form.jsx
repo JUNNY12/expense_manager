@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Form = ({ closeForm, addData }) => {
+const Form = ({ setShow, show , update}) => {
   const [data, setData] = useState({
     date: "",
     merchant: "",
@@ -8,6 +8,10 @@ const Form = ({ closeForm, addData }) => {
     status: "",
     comment: "",
   });
+
+  const handleSetShow = () => {
+    setShow(false)
+  }
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -23,33 +27,36 @@ const Form = ({ closeForm, addData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addData(data);
-    closeForm();
+
   };
 
   return (
-    <div className="formWrapper">
+    <div className={`formWrapper ${show ? 'slidein' : ""}`}>
 
-      <div className="closeBtn" onClick={() => closeForm()}>
+      <div
+        className="closeBtn"
+        title="close"
+        onClick={handleSetShow}
+      >
         X
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="formContainer"> 
-         <div>
-          <div className="inputWrapper">
-            <label>Date</label> <br />
-            <input
-              className="input"
-              name="date"
-              type={`date`}
-              value={data.date}
-              onChange={handleChange}
-            />
-          </div>
+        <div className="formContainer">
+          <div>
+            <div className="inputWrapper">
+              <label className="mb-1">Date</label> <br />
+              <input
+                className="input"
+                name="date"
+                type={`date`}
+                value={data.date}
+                onChange={handleChange}
+              />
+            </div>
 
             <div className="inputWrapper">
-              <label>Merchant</label> <br />
+              <label className="mb-1">Merchant</label> <br />
               <input
                 name="merchant"
                 type={`text`}
@@ -61,7 +68,7 @@ const Form = ({ closeForm, addData }) => {
             </div>
 
             <div className="inputWrapper">
-              <label>Total</label> <br />
+              <label className="mb-1">Total</label> <br />
               <input
                 name="total"
                 className="input"
@@ -73,42 +80,50 @@ const Form = ({ closeForm, addData }) => {
             </div>
 
             <div className="inputWrapper">
-              <label>Status</label> <br />
-              <select 
-              name="status"
-              className="input"
-              type={`text`}
-              value={data.status}
-              placeholder="status"
-              onChange={handleChange}
+              <label className="mb-1">Status</label> <br />
+              <select
+                name="status"
+                className="input"
+                type={`text`}
+                value={data.status}
+                placeholder="status"
+                onChange={handleChange}
               >
-                  <option >New </option>
-                  <option>Inprogress</option>
-                  <option>Completed</option>
+                <option >New </option>
+                <option>Inprogress</option>
+                <option>Completed</option>
               </select>
             </div>
 
             <div className="inputWrapper">
-              <label>Comment</label> <br />
+              <label className="mb-1">Comment</label> <br />
               <textarea
                 name="comment"
-                className="input"
+                className="input textarea"
                 type={`text`}
                 value={data.comment}
                 onChange={handleChange}
               />
             </div>
-         </div>
-        
+          </div>
+
           <div className="inputWrapper">
-            <label>Upload Receipt</label> <br />
+            <label className="mb-1">Upload Receipt</label> <br />
             <input
-              className="input"
+              className="input file"
               type={`file`}
             />
           </div>
         </div>
-        <button className="submit">Submit</button>
+        {
+          update? (
+            <button className="submit">Save Changes</button>
+          )
+          :
+          (
+            <button className="submit">Submit</button>
+          )
+        }
       </form>
     </div>
   );

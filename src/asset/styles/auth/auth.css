@@ -28,6 +28,23 @@
     outline: none;
 }
 
+.loginInput,
+.registerInput{
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.iconWrap{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.google{
+    border-radius: 3px;
+}
+.registerBtn,
+.loginBtn{
+    border-radius: 45px;
+}
 .inputWrapper {
     display: flex;
     position: relative;
@@ -98,6 +115,7 @@
     box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
         7px 7px 20px 0px rgba(0, 0, 0, .1),
         4px 4px 5px 0px rgba(0, 0, 0, .1);
+        margin-top: 0.5rem;
 }
 
 .check {
@@ -139,11 +157,21 @@ a {
     cursor: pointer;
     border-bottom: 2px solid #504e4e;
     color: #504e4e;
+    display:inline-block;
+    margin-top: 0.5rem;
+}
+
+.signUp:hover {
+    color: white;
+    transition: .3s ease-in-out;
+    border-bottom: 2px solid white;
 }
 
 .dont {
     color: #504e4e;
     text-align: center;
+    display: inline-block;
+    margin-top: 0.5rem;
 }
 
 .google {

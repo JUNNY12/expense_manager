@@ -1,5 +1,6 @@
 import React from 'react'
-import DataTable from './DataTable'
+import Content from './Content'
+import Cost from "./Cost"
 
 
 
@@ -11,7 +12,8 @@ const Home = () => {
     <>
       <div className='homeContainer'>
         <div>
-          <DataTable />
+          <Content/>
+          <Cost/>
         </div>
       </div>
     </>

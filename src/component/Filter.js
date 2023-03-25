@@ -7,12 +7,12 @@ const Filter = () => {
 
     return (
         <div className='filter px-2 py-2'>
-            <div className='topFilter'>
+            <div className='topFilter'
+             onClick={() => setShow(prev => !prev)}
+            >
                 <h1 className='fs-5 filterHead'>Filter expenses</h1>
                 <div className='showButton fs-3' >
-                    <button
-                        onClick={() => setShow(prev => !prev)}
-                    ><BiDownArrow /></button>
+                    <button><BiDownArrow /></button>
                 </div>
             </div>
 
