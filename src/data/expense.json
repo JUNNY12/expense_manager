@@ -1,0 +1,10 @@
+[
+    {
+    "merchant": "Acme Corporation",
+    "total": 100.00,
+    "status": "Pending",
+    "date": 1648380489,
+    "comment": "Business lunch with clients",
+    "receipt_url": "https://example.com/receipt.jpg"
+    }
+]

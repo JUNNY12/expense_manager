@@ -172,6 +172,10 @@ td:last-child {
   border-bottom: 2px solid #d59983;
 }
 
+.status_ {
+  width: 100px;
+}
+
 .inputWrapper {
   margin-bottom: 0.5em;
 }
@@ -227,6 +231,7 @@ td:last-child {
   width: 18em;
   height: 2.5em;
   text-indent: 8px;
+  border-radius: 3px;
 }
 
 .search:focus {
@@ -308,6 +313,8 @@ td:last-child {
   column-gap: 1em;
   padding-top: 6em;
 }
+
+
 
 .filter {
   background-color: var(--white-color);
@@ -434,18 +441,23 @@ td:last-child {
   color: #504e4e;
 }
 
-.summary{
- color: #504e4e;
+.summary {
+  color: #504e4e;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
-.tot{
+.tot {
   display: flex;
-  line-height: 30px;
+  line-height: 35px;
 }
 
-.tot:nth-child(4){
-  border-bottom: 3px solid #c77253;
+.tot:nth-child(4) {
+  border-bottom: 2px solid #c77253;
+  margin-bottom: 0.5rem;
 }
+
+
 
 @media all and (max-width:1250px) {
   .wrapper {
@@ -467,6 +479,13 @@ td:last-child {
     transition: .5s ease-in-out;
   }
 
+}
+
+@media all and (min-width:1250px) {
+  .filter {
+    position: fixed;
+    height: 100%;
+  }
 }
 
 @media all and (min-width:1024px) {
@@ -528,7 +547,8 @@ td:last-child {
 
 @media all and (max-width:460px) {
   .search {
-    width: 15em;
+    width: 300px;
+    border-radius: 3px;
   }
 
   .input,

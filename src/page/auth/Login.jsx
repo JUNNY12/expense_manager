@@ -114,7 +114,7 @@ const Login = () => {
                         <span className='me-4'>
                             <GoogleIcon />
                         </span>
-                        <span>Sign in with Google</span>
+                        <span>Continue with Google</span>
                     </div>
                 </div>
             </div>

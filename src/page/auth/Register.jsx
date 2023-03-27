@@ -116,7 +116,7 @@ const Register = () => {
             <span className='me-4'>
               <GoogleIcon />
             </span>
-            <span>Sign up with Google</span>
+            <span>Continue with Google</span>
           </div>
         </div>
       </div>

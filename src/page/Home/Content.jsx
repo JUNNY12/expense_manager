@@ -17,18 +17,16 @@ const Content = () => {
         <div className='wrapper'>
             <div>
                 <Filter />
-            </div>
-
-            <section className='containerWrapper table-responsive pe-2 ps-2 mt-2 mb-5'>
-
-                <div className='d-flex justify-content-center align-items-center my-3 wrap'>
+                <div className='d-flex justify-content-center align-items-center my-4 wrap'>
                     <input
                         className='search'
                         type={`search`}
                         placeholder="Enter your search here ......"
                     />
-
                 </div>
+            </div>
+
+            <section className='containerWrapper table-responsive pe-2 ps-2 mt-2 mb-5'>
                 <Table 
                 setShow={setShow}
                 setUpdate={setUpdate}

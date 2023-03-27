@@ -11,7 +11,7 @@ const Table = ({setUpdate, setShow}) => {
     }
     return (
         <div className='tableContainer'>
-            <table className="table table-hover">
+            <table className="table">
                 <thead>
                     <tr id="tr">
                         <th scope='col'>S/N</th>
