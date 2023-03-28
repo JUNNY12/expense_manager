@@ -81,30 +81,29 @@ html {
 
 .wrap {
   position: relative;
+  padding-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.addBtnWrapper {
-  position: fixed;
-  right: 2em;
-  z-index: 100000;
-  bottom: 2em;
-}
+
 
 .addBtn {
   outline: none;
   border: none;
   padding: 0.5em;
   color: var(--white-color);
-  width: 30px;
-  height: 30px;
   cursor: pointer;
   font-weight: bold;
-  transform: scale(1.5);
-  background-color: #504e4e;
+  background: linear-gradient(to right, #d59983, #bdb3b3);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  width: 100px;
+  height: 35px;
+  border-radius: 3px;
 }
 
 
@@ -335,7 +334,6 @@ td:last-child {
   display: grid;
   grid-template-columns: 1fr 3fr;
   column-gap: 1em;
-  padding-top: 6em;
 }
 
 
@@ -380,11 +378,11 @@ td:last-child {
 
 
 .minMax {
-  column-gap: 2em;
-  align-items: center;
   margin-top: 1.5em;
 }
-
+.label{
+  width: 60px;
+}
 .dash {
   width: 2em;
   margin-top: 1.5em;
@@ -467,9 +465,11 @@ td:last-child {
 
 .summary {
   color: #504e4e;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 6%;
+  padding-right: 6%;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .tot {
@@ -477,7 +477,7 @@ td:last-child {
   line-height: 30px;
 }
 
-.dash{
+.bottom-dash{
   width:180px;
   height: 4px;
   border-radius: 3px;
@@ -515,6 +515,17 @@ td:last-child {
     height: 100%;
   }
 }
+
+@media all and (min-width:1440px) {
+ .table
+ {
+  font-size: 24px;
+ }
+
+ .filter{
+  font-size: 20px;
+ }
+  }
 
 @media all and (min-width:1024px) {
   .name {
@@ -570,6 +581,29 @@ td:last-child {
     font-size: 1.3em;
   }
 
+  .wrap{
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .addBtn{
+    margin-bottom: 1.5em;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .addBtnWrapper{
+    position: fixed;
+    z-index: 10000;
+    right: 1rem;
+    bottom: 4rem;
+  }
 
 }
 

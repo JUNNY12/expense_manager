@@ -22,7 +22,7 @@ const Cost = () => {
           <div className="fs-6 fw-bold">₦ 20,000</div>
         </div>
 
-        <div className="dash"></div>
+        <div className="bottom-dash"></div>
 
         <div className="tot">
           <div className=" fs-6 status_">Total:</div>

@@ -48,7 +48,9 @@
     justify-content: center;
     align-items: center;
 }
-.inputWrapper {
+.loginInputWrapper,
+.registerInputWrapper
+{
     display: flex;
     position: relative;
 }
@@ -230,7 +232,5 @@ a {
     .google {
         width: 100%;
     }
-
-
 
 }

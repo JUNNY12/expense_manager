@@ -6,7 +6,7 @@ const Filter = () => {
     const [show, setShow] = useState(false)
 
     return (
-        <div className='filter px-2 py-2'>
+        <div className='filter px-2 py-2 mb-3'>
             <div className='topFilter'
              onClick={() => setShow(prev => !prev)}
             >
@@ -46,10 +46,10 @@ const Filter = () => {
                         <label>Inprogress</label>
                     </div>
 
-                    <div className='minMax d-flex'>
+                    <div className='minMax'>
 
                         <div>
-                            <label>Min</label><br />
+                            <label className='label'>Min:</label>
                             <input
                                 className='min'
                                 type={`number`}
@@ -57,7 +57,7 @@ const Filter = () => {
                         </div>
                         <div className='dash'></div>
                         <div>
-                            <label>Max</label><br />
+                            <label className='label'>Max:</label>
                             <input
                                 className='max'
                                 type={`number`}
@@ -68,7 +68,7 @@ const Filter = () => {
 
                     <div className='dateFilter mt-4'>
                         <div className='mb-3'>
-                            <label className='me-3'>From:</label>
+                            <label className='label'>From:</label>
                             <input
                                 className='dateInput'
                                 type={`date`}
@@ -77,16 +77,16 @@ const Filter = () => {
                         </div>
 
                         <div>
-                            <label className='me-4'>To:</label>
+                            <label className='label'>To:</label>
                             <input
-                                className='ms-3 dateInput'
+                                className='dateInput'
                                 type={`date`}
                             />
                         </div>
                     </div>
 
                     <div className="inputWrapper mt-4">
-                        <label>Merchant</label> <br />
+                        <label>Merchant:</label> <br />
                         <select
                             className='merchantInput'
                             type={`text`}

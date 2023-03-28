@@ -266,7 +266,7 @@ const Login = () => {
                 <h1 className='text-center formHeader'>Login</h1>
                 <form onSubmit={handleLogin}>
 
-                    <div className='mb-3 inputWrapper'>
+                    <div className='mb-3 loginInputWrapper'>
                         <div className='iconWrap'>
                             <EmailIcon />
                         </div>
@@ -282,7 +282,7 @@ const Login = () => {
                         />
                     </div>
 
-                    <div className='mb-3 inputWrapper'>
+                    <div className='mb-3 loginInputWrapper'>
                         <div className='iconWrap'>
                             <PasswordIcon />
                         </div>

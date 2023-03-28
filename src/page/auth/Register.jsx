@@ -135,7 +135,7 @@ const Register = () => {
       // The signed-in user info.
       const user = result.user;
       console.log(user);
-      toast.success("Account created successfully", {
+      toast.success("Logged in successfully", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: true,
@@ -258,7 +258,7 @@ const Register = () => {
         </div>
         <h1 className="text-center formHeader">Create an Account</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3 inputWrapper">
+          <div className="mb-3 registerInputWrapper">
             <div className="iconWrap">
               <EmailIcon />
             </div>
@@ -272,7 +272,7 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-3 inputWrapper">
+          <div className="mb-3 registerInputWrapper">
             <div className="iconWrap">
               <PasswordIcon />
             </div>

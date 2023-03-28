@@ -14,23 +14,14 @@ const Content = () => {
     }
 
     return (
-        <div className='wrapper'>
-            <div>
-                <Filter />
-                <div className='d-flex justify-content-center align-items-center my-4 wrap'>
-                    <input
-                        className='search'
-                        type={`search`}
-                        placeholder="Search expenses ......"
-                    />
-                </div>
-            </div>
-
-            <section className='containerWrapper table-responsive pe-2 ps-2 mt-2 mb-5'>
-                <Table 
-                setShow={setShow}
-                setUpdate={setUpdate}
+        <div>
+            <div className='my-4 wrap'>
+                <input
+                    className='search'
+                    type={`search`}
+                    placeholder="Search expenses ......"
                 />
+
                 {
                     !show &&
                     <div className='addBtnWrapper'>
@@ -39,21 +30,34 @@ const Content = () => {
                             title='Add Expense'
                             onClick={handleShowForm}
                             className='addBtn'>
-                            <Plus />
+                            <span><Plus /></span>
                         </button>
                     </div>
                 }
-            </section>
-            {
-                show &&
-                <Form
-                    update={update}
-                    show={show}
-                    setShow={setShow}
-                />
-            }
+            </div>
+
+            <div className='wrapper'>
+                <div>
+                    <Filter />
+                </div>
+
+                <section className='containerWrapper table-responsive pe-2 ps-2 mt-2 mb-5'>
+                    <Table
+                        setShow={setShow}
+                        setUpdate={setUpdate}
+                    />
+                </section>
+                {
+                    show &&
+                    <Form
+                        update={update}
+                        show={show}
+                        setShow={setShow}
+                    />
+                }
 
 
+            </div>
         </div>
     )
 }
