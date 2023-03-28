@@ -292,7 +292,7 @@ const Register = () => {
             </button>
           </div>
 
-          <div className="mb-3 inputWrapper">
+          <div className="mb-3 registerInputWrapper">
             <div className="iconWrap">
               <PasswordIcon />
             </div>
