@@ -1,20 +1,16 @@
 import React, { Suspense } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
-import { RoutesConfig, Routes } from './config/routes';
-import { Routes as ReactRoutes, Route } from 'react-router-dom';
 import Loader from './component/Loader';
-
+import { Route } from './config/Route';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <RoutesConfig />
-      <ReactRoutes>
-        {Routes().map((route, index) => {
-          return <Route key={route.path} path={route.path} element={route.element} />;
-        })}
-      </ReactRoutes>
+      <Route />
+      <ToastContainer />
     </Suspense>
   );
 };

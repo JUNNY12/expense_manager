@@ -38,7 +38,7 @@ const Table = ({setUpdate, setShow}) => {
                                     <td>{status}</td>
                                     <td>{comment}</td>
                                     <td>
-                                        <span className='me-2'>
+                                        <span className=''>
                                             <button
                                                 aria-label='Delete Expense'
                                                 title='Delete Expense'

@@ -44,6 +44,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background: linear-gradient(to bottom, #d59983, #bdb3b3);
 }
 
 .navWrapper {
@@ -132,11 +133,13 @@ html {
   color: #504e4e;
 }
 
-td {
+td,
+th
+{
   text-align: center;
 }
 
-td:nth-child(6) {
+td:nth-child(6){
   min-width: 200px;
 }
 
@@ -150,7 +153,10 @@ td:nth-child(5) {
 }
 
 td:last-child {
-  min-width: 100px;
+  min-width: 140px;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .table tbody tr {
@@ -159,6 +165,10 @@ td:last-child {
 
 .table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
+}
+
+.table>:not(caption)>*>* {
+  border-bottom-width: 0px;
 }
 
 .table tbody tr:hover {
@@ -269,17 +279,31 @@ td:last-child {
 }
 
 .deleteBtn {
-  color: rgba(255, 0, 0, 0.85);
+  color: rgba(255, 0, 0, 0.7);
   border: none;
+  border: 1.5px solid gray;
   outline: none;
-  background: none;
+  background: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .updateBtn {
-  color: rgba(0, 255, 0, 0.9);
+  color: rgba(0, 255, 0, 0.7);
   border: none;
+  border: 1.5px solid gray;
   outline: none;
-  background: none;
+  background: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .closeBtn {
@@ -445,18 +469,22 @@ td:last-child {
   color: #504e4e;
   padding-left: 10%;
   padding-right: 10%;
+  position: relative;
 }
 
 .tot {
   display: flex;
-  line-height: 35px;
+  line-height: 30px;
 }
 
-.tot:nth-child(4) {
-  border-bottom: 2px solid #c77253;
-  margin-bottom: 0.5rem;
+.dash{
+  width:180px;
+  height: 4px;
+  border-radius: 3px;
+  background-color: var(--primary-color);
+  position: absolute;
+  bottom: 28px;
 }
-
 
 
 @media all and (max-width:1250px) {
@@ -578,5 +606,9 @@ td:last-child {
 
   .logout {
     transform: scale(1);
+  }
+
+  .logoName {
+    font-size: 20px;
   }
 }

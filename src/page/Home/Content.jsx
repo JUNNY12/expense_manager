@@ -1,5 +1,5 @@
 import { Plus } from '../../asset/icon/Icon'
-import Filter from '../../component/Filter'
+import Filter from './Filter'
 import Form from "./Form"
 import { useState } from 'react'
 import Table from './Table'
@@ -21,7 +21,7 @@ const Content = () => {
                     <input
                         className='search'
                         type={`search`}
-                        placeholder="Enter your search here ......"
+                        placeholder="Search expenses ......"
                     />
                 </div>
             </div>

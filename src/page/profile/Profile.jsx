@@ -1,12 +1,17 @@
 import profileImage from "../../asset/images/profileImage.webp"
 import { BackArrow } from '../../asset/icon/Icon'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import "../../asset/styles/profile/profile.css"
 import { PhotoIcon } from "../../asset/icon/Icon"
 import { useForm } from "../../hooks/useForm"
+import { useState, useEffect } from 'react';
+import { auth } from "../../firebase"
+import { useAuthState } from "react-firebase-hooks/auth"
+import Loader from "../../component/Loader"
+
 
 const Profile = () => {
-
+    const navigate = useNavigate();
     const [values, handleValueChange] = useForm({
         displayName: '',
         email: '',
@@ -14,6 +19,29 @@ const Profile = () => {
         lastName: '',
         address:''
     })
+    
+    const [user, loading] = useAuthState(auth);
+    const [authenticated, setAuthenticated] = useState(false);
+  
+    //redirect to login if user is not authenticated
+    useEffect(() => {
+      if (!user && !loading) {
+        navigate('/login');
+      }
+      setAuthenticated(user ? true : false);
+    }, [user, loading, navigate]);
+  
+    //show loader if loading
+    if (loading) {
+      return <Loader />;
+    }
+  
+    //return null if user is not authenticated to prevent glitch of the page
+    if (!authenticated) {
+      return null;
+    }
+
+  
 
     const { displayName, email, firstName, lastName, address } = values
     return (

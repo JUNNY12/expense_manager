@@ -44,6 +44,9 @@
 .registerBtn,
 .loginBtn{
     border-radius: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .inputWrapper {
     display: flex;
