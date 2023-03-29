@@ -64,6 +64,7 @@ const Table = ({ arrayofExpense }) => {
         setShow(true)
     }
 
+    //conditional rendering
     let content;
 
     if (arrayofExpense?.length === 0) {
@@ -109,7 +110,8 @@ const Table = ({ arrayofExpense }) => {
         )
     }
 
-    if (isLoading && arrayofExpense?.length ===0) {
+    //Conditional rendering
+    if (isLoading && arrayofExpense?.length === 0) {
         return (
             <div className='tableLoad'>
                 <BeatLoader color='#c77253' size={15} />
