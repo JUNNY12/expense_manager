@@ -12,6 +12,7 @@ const Home = () => {
   const [user, loading] = useAuthState(auth);
   const [authenticated, setAuthenticated] = useState(false);
 
+  // console.log(user);
   //redirect to login if user is not authenticated
   useEffect(() => {
     if (!user && !loading) {
@@ -36,7 +37,6 @@ const Home = () => {
       <div className='homeContainer'>
         <div>
           <Content />
-          <Cost />
         </div>
       </div>
     </>

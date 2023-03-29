@@ -3,10 +3,10 @@ import { useState } from "react"
 import { BiDownArrow } from "react-icons/bi"
 
 const Filter = () => {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
 
     return (
-        <div className='filter px-2 py-2 mb-3'>
+        <div className='filter'>
             <div className='topFilter'
              onClick={() => setShow(prev => !prev)}
             >

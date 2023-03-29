@@ -3,60 +3,36 @@ import Filter from './Filter'
 import Form from "./Form"
 import { useState } from 'react'
 import Table from './Table'
+import { useGetExpensesQuery } from '../../services/expenses'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../../firebase'
+import Empty from './Empty'
 
 const Content = () => {
+    const [user] = useAuthState(auth)
 
-    const [show, setShow] = useState(false)
-    const [update, setUpdate] = useState(false)
+    let uid = user?.uid
 
-    const handleShowForm = () => {
-        setShow(true)
+    const { data } = useGetExpensesQuery(uid)
+
+    let arrayofExpense =[]
+    for(let key in data){
+        arrayofExpense.push({...data[key], id:key})
     }
-
+   
     return (
         <div>
-            <div className='my-4 wrap'>
-                <input
-                    className='search'
-                    type={`search`}
-                    placeholder="Search expenses ......"
-                />
-
-                {
-                    !show &&
-                    <div className='addBtnWrapper'>
-                        <button
-                            aria-label='Add Expense'
-                            title='Add Expense'
-                            onClick={handleShowForm}
-                            className='addBtn'>
-                            <span><Plus /></span>
-                        </button>
-                    </div>
-                }
-            </div>
-
-            <div className='wrapper'>
+            <div className='contentWrapper'>
                 <div>
                     <Filter />
                 </div>
-
-                <section className='containerWrapper table-responsive pe-2 ps-2 mt-2 mb-5'>
-                    <Table
-                        setShow={setShow}
-                        setUpdate={setUpdate}
-                    />
-                </section>
-                {
-                    show &&
-                    <Form
-                        update={update}
-                        show={show}
-                        setShow={setShow}
-                    />
-                }
-
-
+                <div className='table-responsive'>
+                    {
+                        <Table
+                            arrayofExpense={arrayofExpense}
+                        />
+                    }
+                </div>
             </div>
         </div>
     )

@@ -27,7 +27,7 @@ npm install
 
 4. Copy the Firebase configuration to src/firebase.js file.
 
-Start the development servers:
+Start the development server:
 
 5. Start the React App
 

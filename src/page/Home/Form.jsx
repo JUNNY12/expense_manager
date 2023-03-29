@@ -1,18 +1,43 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useAddExpenseMutation , useUpdateExpenseMutation} from "../../services/expenses";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
+import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { isEmptyObject } from "../../constants/checkObject";
 
-const Form = ({ setShow, show , update}) => {
+
+
+
+const Form = ({ setShow, show, update, setUpdate }) => {
+  const [add, { isLoading, isSuccess }] = useAddExpenseMutation();
+  const [updateExpense] = useUpdateExpenseMutation()
+  const [user] = useAuthState(auth)
+  let uid = user?.uid
+
+  const { id, date, merchant, total, status, comment } = update
+
+
   const [data, setData] = useState({
-    date: "",
-    merchant: "",
-    total: "",
-    status: "",
-    comment: "",
+    id: "" || id,
+    date: "" || date,
+    merchant: "" || merchant,
+    total: "" || total,
+    status: "" || status,
+    comment: "" || comment,
   });
 
-  const handleSetShow = () => {
+  // function to close the form
+  const handleClose = () => {
     setShow(false)
+   
+    //check if update is empty
+    if(!isEmptyObject(update)){
+      setUpdate({})
+    }
   }
 
+  // function to handle change in input
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -25,10 +50,63 @@ const Form = ({ setShow, show , update}) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // function to handle add expense
+  const handleAddExpense = async (e) => {
+    e.preventDefault()
+    try {
+      await add({
+        uid,
+        body: data,
+      })
+      toast.success('Expense added successfully', {
+        position: 'top-center',
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      console.log('success')
+    } catch (error) {
+      console.log(error)
+    }
+    setShow(false)
+  }
 
-  };
+  // function to handle update expense
+  const handleUpdateExpense = async (e) => {  
+    e.preventDefault()
+    try {
+      await updateExpense({
+        id,
+        uid,
+        body: {
+          date:data.date,
+          merchant:data.merchant,
+          total:data.total,
+          status:data.status,
+          comment:data.comment
+        }
+      })
+      toast.success('Expense updated successfully', {
+        position: 'top-center',
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      console.log('success')
+    } catch (error) {
+      console.log(error)
+    }
+    setShow(false)
+    if(!isEmptyObject(update)){
+      setUpdate({})
+    }
+  }
 
   return (
     <div className={`formWrapper ${show ? 'slidein' : ""}`}>
@@ -36,12 +114,12 @@ const Form = ({ setShow, show , update}) => {
       <div
         className="closeBtn"
         title="close"
-        onClick={handleSetShow}
+        onClick={handleClose}
       >
         X
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleAddExpense}>
         <div className="formContainer">
           <div>
             <div className="inputWrapper">
@@ -89,6 +167,7 @@ const Form = ({ setShow, show , update}) => {
                 placeholder="status"
                 onChange={handleChange}
               >
+                <option>choose</option>
                 <option >New </option>
                 <option>Inprogress</option>
                 <option>Completed</option>
@@ -115,15 +194,20 @@ const Form = ({ setShow, show , update}) => {
             />
           </div>
         </div>
+
         {
-          update? (
-            <button className="submit">Save Changes</button>
-          )
-          :
-          (
-            <button className="submit">Submit</button>
-          )
+          isEmptyObject(update) ?
+            <button className="submit">{
+              isLoading ? <BeatLoader color="#c77253" size={20} /> : 'Submit'
+            }</button>
+            :
+            <button
+            type="submit"
+            onClick={handleUpdateExpense}
+             className="submit">Save Changes</button>
         }
+
+
       </form>
     </div>
   );
