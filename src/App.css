@@ -72,7 +72,7 @@ html {
 }
 
 .homeContainer {
-margin: 0 2rem 2rem 2rem;
+  margin: 0 2rem 2rem 2rem;
 }
 
 .containerWrapper {
@@ -131,13 +131,8 @@ margin: 0 2rem 2rem 2rem;
 }
 
 td,
-th
-{
+th {
   text-align: center;
-}
-
-td:nth-child(6){
-  /* min-width: 200px; */
 }
 
 td:nth-child(2),
@@ -145,9 +140,7 @@ td:nth-child(3) {
   min-width: 125px;
 }
 
-td:nth-child(5) {
-  /* min-width: 150px; */
-}
+
 
 td:last-child {
   min-width: 140px;
@@ -369,9 +362,11 @@ td:last-child {
 .minMax {
   margin-top: 1.5em;
 }
-.label{
+
+.label {
   width: 60px;
 }
+
 .dash {
   width: 2em;
   margin-top: 1.5em;
@@ -403,8 +398,8 @@ td:last-child {
 }
 
 .receiptContainer {
-  height: 15em;
-  width: 15em;
+  height: 350px;
+  width: 300px;
   object-fit: cover;
 }
 
@@ -453,8 +448,14 @@ td:last-child {
   padding-right: 6%;
   position: relative;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top:1em;
+}
+
+.cost{
+  position: relative;
+ 
 }
 
 .tot {
@@ -462,8 +463,8 @@ td:last-child {
   line-height: 30px;
 }
 
-.bottom-dash{
-  width:180px;
+.bottom-dash {
+  width: 100%;
   height: 4px;
   border-radius: 3px;
   background-color: var(--primary-color);
@@ -471,8 +472,8 @@ td:last-child {
   bottom: 28px;
 }
 
-.empty{
- position: absolute;
+.empty {
+  position: absolute;
   top: 65%;
   left: 60%;
   transform: translate(-50%, -50%);
@@ -481,13 +482,14 @@ td:last-child {
   text-align: center;
 }
 
-.tableLoad{
+.tableLoad {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60vh;
 }
-.deleteModal{
+
+.deleteModal {
   position: relative;
   width: 400px;
   height: 200px;
@@ -501,7 +503,7 @@ td:last-child {
   background: linear-gradient(to bottom, #d59983, #bdb3b3);
 }
 
-.closeModal{
+.closeModal {
   position: absolute;
   top: 1em;
   right: 1em;
@@ -519,12 +521,12 @@ td:last-child {
   cursor: pointer;
 }
 
-.paraText{
+.paraText {
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
 }
 
-.modalBtn{
+.modalBtn {
   display: inline-flex;
   column-gap: 3rem;
   justify-content: center;
@@ -532,29 +534,30 @@ td:last-child {
   width: 100%;
 }
 
-.contentWrapper{
-  padding-top:8rem ;
+.contentWrapper {
+  padding-top: 8rem;
   display: grid;
   grid-template-columns: 1fr 3fr;
 }
 
-.yes{
+.yes {
   background-color: rgba(255, 0, 0, 0.7);
   font-weight: bold;
 }
 
-.yes:hover{
+.yes:hover {
   background-color: white;
   color: rgba(255, 0, 0, 0.7);
   border: 1px solid rgba(255, 0, 0, 0.7);
   transition: .3s ease-in-out;
 }
 
-.no{
+.no {
   background-color: rgba(0, 255, 0, 0.7);
   font-weight: bold;
 }
-.no:hover{
+
+.no:hover {
   background-color: white;
   color: rgba(0, 255, 0, 0.7);
   border: 1px solid rgba(0, 255, 0, 0.7);
@@ -562,7 +565,7 @@ td:last-child {
 }
 
 .yes,
-.no{
+.no {
   border: none;
   outline: none;
   padding: 0.3rem;
@@ -575,7 +578,7 @@ td:last-child {
   align-items: center;
 }
 
-.modalContainer{
+.modalContainer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -585,44 +588,43 @@ td:last-child {
 
 @media all and (max-width:1250px) {
 
-.contentWrapper{
-  grid-template-columns: 1fr;
-}
+  .contentWrapper {
+    grid-template-columns: 1fr;
+  }
 
-.filter{
-  position: relative;
-}
+  .filter {
+    position: relative;
+  }
 
-.filterContainer{
-  display: none;
-}
+  .filterContainer {
+    display: none;
+  }
 
-.showButton{
-  display: block;
-}
+  .showButton {
+    display: block;
+  }
 
-.topFilter{
-  display: flex;
-}
+  .topFilter {
+    display: flex;
+  }
 
-.filter{
-  width: 100%;
-}
+  .filter {
+    width: 100%;
+  }
 
 }
 
 
 
 @media all and (min-width:1440px) {
- .table
- {
-  font-size: 24px;
- }
-
- .filter{
-  font-size: 20px;
- }
+  .table {
+    font-size: 24px;
   }
+
+  .filter {
+    font-size: 20px;
+  }
+}
 
 @media all and (min-width:1024px) {
   .name {
@@ -643,8 +645,7 @@ td:last-child {
   }
 }
 
-@media all and (max-width:865px) {
-}
+@media all and (max-width:865px) {}
 
 @media all and (max-width:768px) {
 
@@ -667,11 +668,12 @@ td:last-child {
     font-size: 1.4em;
     margin-top: 1em;
   }
-.empty{
-  top: 70%;
-  left: 50%;
-  width: 100%;
-}
+
+  .empty {
+    top: 70%;
+    left: 50%;
+    width: 100%;
+  }
 }
 
 @media all and (max-width:600px) {
@@ -679,18 +681,24 @@ td:last-child {
     font-size: 1.3em;
   }
 
-  .homeContainer{
+  .summary{
+    flex-direction: column-reverse;
+    gap: 2em;
+    margin-top: 1.5rem;
+  }
+
+  .homeContainer {
     margin: 0 1rem 1rem 1rem;
   }
 
-  .wrap{
+  .wrap {
     flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
 
   }
 
-  .addBtn{
+  .addBtn {
     margin-bottom: 1.5em;
     width: 35px;
     height: 35px;
@@ -700,7 +708,7 @@ td:last-child {
     align-items: center;
   }
 
-  .addBtnWrapper{
+  .addBtnWrapper {
     position: fixed;
     z-index: 10000;
     right: 1rem;
@@ -748,18 +756,18 @@ td:last-child {
     font-size: 20px;
   }
 
-  .empty{
+  .empty {
     font-size: 1.5em;
   }
 
-  .deleteModal{
+  .deleteModal {
     width: 280px;
     height: 150px;
   }
 }
 
-@media all and (max-width:375px){
-  .search{
+@media all and (max-width:375px) {
+  .search {
     width: 100%;
   }
 }

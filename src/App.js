@@ -8,7 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import { store } from './state/store';
 
+
 const App = () => {
+
   return (
     <Provider store={store}>
       <Suspense fallback={<Loader />}>

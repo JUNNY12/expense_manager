@@ -1,14 +1,26 @@
 import React from 'react'
 import { useState } from "react"
 import { BiDownArrow } from "react-icons/bi"
+import { setFilter } from '../../state/slices/expenseSlice'
+import { useDispatch } from 'react-redux'
+import { FILTER_ACTIONS } from '../../state/actions/action'
+import { useSelector } from 'react-redux'
 
 const Filter = () => {
     const [show, setShow] = useState(true)
 
+    const dispatch = useDispatch()
+
+    const { expenses } = useSelector(state => state.expense)
+
+    // eliminate duplicate merchants
+    const uniqueMerchants = [...new Set(expenses.map(expense => expense.merchant))]
+
+
     return (
         <div className='filter'>
             <div className='topFilter'
-             onClick={() => setShow(prev => !prev)}
+                onClick={() => setShow(prev => !prev)}
             >
                 <h1 className='fs-5 filterHead'>Filter expenses</h1>
                 <div className='showButton fs-3' >
@@ -23,6 +35,10 @@ const Filter = () => {
                             type={`radio`}
                             name="status"
                             className='me-3'
+                            onChange={() => dispatch(setFilter({
+                                type: FILTER_ACTIONS.FILTER_STATUS,
+                                payload: 'Complete'
+                            }))}
                         />
                         <label>Completed</label>
                     </div>
@@ -32,6 +48,10 @@ const Filter = () => {
                             className='me-3'
                             type={`radio`}
                             name="status"
+                            onChange={() => dispatch(setFilter({
+                                type: FILTER_ACTIONS.FILTER_STATUS,
+                                payload: 'New'
+                            }))}
                         />
                         <label>New</label>
                     </div>
@@ -41,7 +61,10 @@ const Filter = () => {
                             className='me-3'
                             name="status"
                             type={`checkbox`}
-
+                            onChange={() => dispatch(setFilter({
+                                type: FILTER_ACTIONS.FILTER_STATUS,
+                                payload: 'Inprogress'
+                            }))}
                         />
                         <label>Inprogress</label>
                     </div>
@@ -91,7 +114,15 @@ const Filter = () => {
                             className='merchantInput'
                             type={`text`}
                         >
-                            <option defaultValue={''}></option>
+                            <option defaultValue={''}>select</option>
+                            {
+                                uniqueMerchants.map(merchantName => {
+                                    return (
+                                        <option key={merchantName} value={merchantName}>{merchantName}</option>
+                                    )
+                                })
+
+                            }
                         </select>
                     </div>
 

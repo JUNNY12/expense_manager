@@ -1,32 +1,47 @@
 import React from 'react'
-import { formatPrice } from '../../constants/formatCurrency'
-import { expenses } from '../../data/data'
-import { Pencil, TrashIcon } from '../../asset/icon/Icon'
+import { formatPrice } from '../../helpers/formatCurrency'
+import { Pencil, TrashIcon,Plus } from '../../asset/icon/Icon'
 import { useGetExpensesQuery, useDeleteExpenseMutation } from '../../services/expenses'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase'
-import Loader from '../../component/Loader'
 import Empty from './Empty'
 import { toast } from "react-toastify";
 import { useState } from 'react'
 import Form from './Form'
-import { Plus } from '../../asset/icon/Icon'
 import Cost from './Cost'
 import { BeatLoader } from 'react-spinners'
+import { FILTER_ACTIONS } from '../../state/actions/action'
+import { setFilter } from '../../state/slices/expenseSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFilteredExpenses } from '../../helpers/getFilteredExpenses'
 
 
+const Table = () => {
 
-const Table = ({ arrayofExpense }) => {
     const [show, setShow] = useState(false)
     const [update, setUpdate] = useState({})
     const [user] = useAuthState(auth)
 
     let uid = user?.uid
-    const { data, error, isLoading } = useGetExpensesQuery(uid)
-
-    console.log(data)
-
+    const { isLoading } = useGetExpensesQuery(uid)
     const [deleteExpense] = useDeleteExpenseMutation()
+    
+    const dispatch = useDispatch()
+    const {expenses, filter} = useSelector((state) => state.expense)
+    const filterExpenses = getFilteredExpenses(expenses, filter)
+
+    console.log(filterExpenses)
+    console.log(filter)
+
+    // function to handle search
+    const handleSearch = (e) => {
+        dispatch(
+            setFilter({
+                type: FILTER_ACTIONS.FILTER_ALL,
+                payload: e.target.value
+            })
+        )
+    }
 
     // function to handle delete expense
     const handleDeleteExpense = (id) => {
@@ -49,7 +64,8 @@ const Table = ({ arrayofExpense }) => {
             console.log(error)
         }
     }
-    // function to set update data state
+
+    // function to set update data props
     const handleSetUpdate = (id, date, merchant, total, status, comment) => {
         setUpdate({
             ...update,
@@ -66,13 +82,12 @@ const Table = ({ arrayofExpense }) => {
 
     //conditional rendering
     let content;
-
-    if (arrayofExpense?.length === 0) {
+    if (filterExpenses?.length === 0) {
         content = <Empty />
     }
     else {
         content = (
-            arrayofExpense?.reverse()?.map((expense, index) => {
+            filterExpenses?.map((expense, index) => {
                 // console.log(expense)
 
                 const { id, date, merchant, total, status, comment } = expense
@@ -111,7 +126,7 @@ const Table = ({ arrayofExpense }) => {
     }
 
     //Conditional rendering
-    if (isLoading && arrayofExpense?.length === 0) {
+    if (isLoading && filterExpenses?.length === 0) {
         return (
             <div className='tableLoad'>
                 <BeatLoader color='#c77253' size={15} />
@@ -126,6 +141,7 @@ const Table = ({ arrayofExpense }) => {
                     className='search'
                     type={`search`}
                     placeholder="Search expenses ......"
+                    onChange={handleSearch}
                 />
 
                 {

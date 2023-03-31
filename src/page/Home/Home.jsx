@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Content from './Content';
-import Cost from './Cost';
 import Nav from '../../component/Nav';
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';

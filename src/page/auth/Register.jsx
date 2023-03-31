@@ -9,7 +9,7 @@ import {
   GoogleIcon,
 } from "../../asset/icon/Icon";
 import "../../asset/styles/auth/auth.css";
-import { useState, useCallback } from "react";
+import { useState} from "react";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -18,10 +18,11 @@ import {
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
-import { validatePassword } from "../../constants/validatePassword";
+import { validatePassword } from "../../helpers/validatePassword";
 import {} from "firebase/auth";
 
 const Register = () => {
+  
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -29,7 +30,7 @@ const Register = () => {
 
   // Redirect to login page
   const redirect = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   // Toggle password visibility
@@ -42,10 +43,10 @@ const Register = () => {
   const inputRef = useRef(null);
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  });
 
   // Handle form submit
-  const handleSubmit = useCallback(async (e) => {
+  const handleSubmit = async (e) => {
     const { email, password, confirmPassword } = e.target.elements;
     e.preventDefault();
 
@@ -125,11 +126,11 @@ const Register = () => {
       }
       setIsLoading(false);
     }
-  }, []);
+  };
 
   // Handle google login
   const provider = new GoogleAuthProvider();
-  const handleGoogleLogin = useCallback(async () => {
+  const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       // The signed-in user info.
@@ -248,7 +249,7 @@ const Register = () => {
           });
       }
     }
-  }, []);
+  };
 
   return (
     <div className="registerWrapper">

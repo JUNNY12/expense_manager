@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { EmailIcon, UserLoginIcon, PasswordIcon, GoogleIcon, EyeIcon, EyeSlashIcon } from '../../asset/icon/Icon'
 import "../../asset/styles/auth/auth.css"
@@ -10,10 +10,9 @@ import {
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
 import { BeatLoader } from "react-spinners"
-import { useAuthState } from 'react-firebase-hooks/auth'
+
 
 const Login = () => {
-    const [user, loading, error] = useAuthState(auth)
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -33,7 +32,7 @@ const Login = () => {
     }, [])
 
     //handle login
-    const handleLogin = useCallback(async (e) => {
+    const handleLogin = async (e) => {
         const { email, password } = e.target.elements
         e.preventDefault()
         setIsLoading(true)
@@ -130,11 +129,11 @@ const Login = () => {
             }
         }
         setIsLoading(false)
-    }, [])
+    };
 
     //handle google login
     const provider = new GoogleAuthProvider()
-    const handleGoogleLogin = useCallback(async () => {
+    const handleGoogleLogin = async() => {
         try {
             const result = await signInWithPopup(auth, provider);
             // The signed-in user info.
@@ -255,7 +254,7 @@ const Login = () => {
                     })
             }
         }
-    }, [])
+    };
 
     return (
         <div className='loginWrapper'>

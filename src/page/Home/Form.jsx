@@ -1,16 +1,19 @@
-import { useState, useCallback } from "react";
+import { useState} from "react";
 import { useAddExpenseMutation , useUpdateExpenseMutation} from "../../services/expenses";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { isEmptyObject } from "../../constants/checkObject";
+import { isEmptyObject } from "../../helpers/checkObject";
+import { storage } from "../../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 
 
 
 
 const Form = ({ setShow, show, update, setUpdate }) => {
-  const [add, { isLoading, isSuccess }] = useAddExpenseMutation();
+  const [add, { isLoading }] = useAddExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation()
   const [user] = useAuthState(auth)
   let uid = user?.uid
@@ -25,7 +28,47 @@ const Form = ({ setShow, show, update, setUpdate }) => {
     total: "" || total,
     status: "" || status,
     comment: "" || comment,
+    receipt:undefined
   });
+
+  // state for file upload
+  const [receiptImage, setReceiptImage] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+
+
+  // function to select file
+  const selectFile = (event) => {
+    const file = event.target[0]?.files[0]
+    if(!file) return 
+
+    const storageRef = ref(storage, `files/${file.name}`);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      setProgress(progress);
+      console.log("Upload is " + progress + "% done");
+    }, 
+    // function to handle error
+    (error) => {
+      alert(error.message)
+    },
+    // function to get download url
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        setReceiptImage(downloadURL)
+        setData((prevData) => {
+          return {
+            ...prevData,
+            receipt: downloadURL,
+          };
+        });
+      });
+    });
+    
+  };
 
   // function to close the form
   const handleClose = () => {
@@ -130,6 +173,8 @@ const Form = ({ setShow, show, update, setUpdate }) => {
                 type={`date`}
                 value={data.date}
                 onChange={handleChange}
+                required
+                aria-required="true"
               />
             </div>
 
@@ -142,6 +187,8 @@ const Form = ({ setShow, show, update, setUpdate }) => {
                 value={data.merchant}
                 onChange={handleChange}
                 placeholder="merchant"
+                required
+                aria-required="true"
               />
             </div>
 
@@ -154,6 +201,8 @@ const Form = ({ setShow, show, update, setUpdate }) => {
                 value={data.total}
                 placeholder="total"
                 onChange={handleChange}
+                required
+                aria-required="true"
               />
             </div>
 
@@ -166,6 +215,8 @@ const Form = ({ setShow, show, update, setUpdate }) => {
                 value={data.status}
                 placeholder="status"
                 onChange={handleChange}
+                required
+                aria-required="true"
               >
                 <option>choose</option>
                 <option >New </option>
@@ -182,6 +233,8 @@ const Form = ({ setShow, show, update, setUpdate }) => {
                 type={`text`}
                 value={data.comment}
                 onChange={handleChange}
+                required
+                aria-required="true"
               />
             </div>
           </div>
@@ -191,7 +244,17 @@ const Form = ({ setShow, show, update, setUpdate }) => {
             <input
               className="input file"
               type={`file`}
+              name="file"
+              multiple 
+              accept="image/*"
+              onChange={selectFile}
             />
+           {
+            receiptImage &&
+            <div className="receiptContainer">
+              <img src={receiptImage} alt="" />
+           </div>
+           }
           </div>
         </div>
 
@@ -206,8 +269,6 @@ const Form = ({ setShow, show, update, setUpdate }) => {
             onClick={handleUpdateExpense}
              className="submit">Save Changes</button>
         }
-
-
       </form>
     </div>
   );
