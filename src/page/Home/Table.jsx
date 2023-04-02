@@ -43,6 +43,7 @@ const Table = () => {
         )
     }
 
+
     // function to handle delete expense
     const handleDeleteExpense = (id) => {
         try {
@@ -66,7 +67,7 @@ const Table = () => {
     }
 
     // function to set update data props
-    const handleSetUpdate = (id, date, merchant, total, status, comment) => {
+    const handleSetUpdate = (id, date, merchant, total, status, comment,receipt) => {
         setUpdate({
             ...update,
             id,
@@ -74,23 +75,39 @@ const Table = () => {
             merchant,
             total,
             status,
-            comment
+            comment,
+            receipt
         })
-
         setShow(true)
+        console.log(update)
     }
 
     //conditional rendering
     let content;
-    if (filterExpenses?.length === 0) {
-        content = <Empty />
+    if (filterExpenses?.length === 0 && expenses.length === 0) {
+        content = (
+            <tr className='empty'>
+                <td colSpan='7' className='text-center'>
+                    No expense added yet
+                </td>
+            </tr>
+        )
+    }
+    else if (filterExpenses?.length === 0 && expenses.length > 0) {
+        content = (
+            <tr className='empty'>
+                <td colSpan='7' className='text-center'>
+                    <h5 className='text-danger'>No expenses found</h5>
+                </td>
+            </tr>
+        )
     }
     else {
         content = (
             filterExpenses?.map((expense, index) => {
                 // console.log(expense)
 
-                const { id, date, merchant, total, status, comment } = expense
+                const { id, date, merchant, total, status, comment , receipt} = expense
 
                 return (
                     <tr key={id}>
@@ -115,7 +132,7 @@ const Table = () => {
                                 <button
                                     aria-label='Update Expense'
                                     title='Update Expense'
-                                    onClick={() => handleSetUpdate(id, date, merchant, total, status, comment)}
+                                    onClick={() => handleSetUpdate(id, date, merchant, total, status, comment, receipt)}
                                     className='updateBtn'><Pencil /></button>
                             </span>
                         </td>

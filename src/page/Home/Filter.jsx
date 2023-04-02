@@ -1,22 +1,30 @@
 import React from 'react'
 import { useState } from "react"
 import { BiDownArrow } from "react-icons/bi"
-import { setFilter } from '../../state/slices/expenseSlice'
+import { setFilter, clearFilter } from '../../state/slices/expenseSlice'
 import { useDispatch } from 'react-redux'
 import { FILTER_ACTIONS } from '../../state/actions/action'
 import { useSelector } from 'react-redux'
+
 
 const Filter = () => {
     const [show, setShow] = useState(true)
 
     const dispatch = useDispatch()
 
-    const { expenses } = useSelector(state => state.expense)
+    const { expenses, filter } = useSelector(state => state.expense)
 
     // eliminate duplicate merchants
     const uniqueMerchants = [...new Set(expenses.map(expense => expense.merchant))]
 
 
+    const handleClearFilter = (e) => {
+        e.preventDefault()
+        dispatch(clearFilter())
+        dispatch(setFilter({
+            type: FILTER_ACTIONS.CLEAR_FILTER,
+        }))
+    }
     return (
         <div className='filter'>
             <div className='topFilter'
@@ -76,12 +84,20 @@ const Filter = () => {
                             <input
                                 className='min'
                                 type={`number`}
+                                onChange={(e) => dispatch(setFilter({
+                                    type: FILTER_ACTIONS.FILTER_MIN,
+                                    payload: e.target.value
+                                }))}
                             />
                         </div>
                         <div className='dash'></div>
                         <div>
                             <label className='label'>Max:</label>
                             <input
+                                onChange={(e) => dispatch(setFilter({
+                                    type: FILTER_ACTIONS.FILTER_MAX,
+                                    payload: e.target.value
+                                }))}
                                 className='max'
                                 type={`number`}
                             />
@@ -93,6 +109,10 @@ const Filter = () => {
                         <div className='mb-3'>
                             <label className='label'>From:</label>
                             <input
+                                onChange={(e) => dispatch(setFilter({
+                                    type: FILTER_ACTIONS.FILTER_FROM_DATE,
+                                    payload: e.target.value
+                                }))}
                                 className='dateInput'
                                 type={`date`}
                             />
@@ -102,6 +122,10 @@ const Filter = () => {
                         <div>
                             <label className='label'>To:</label>
                             <input
+                                onChange={(e) => dispatch(setFilter({
+                                    type: FILTER_ACTIONS.FILTER_TO_DATE,
+                                    payload: e.target.value
+                                }))}
                                 className='dateInput'
                                 type={`date`}
                             />
@@ -113,6 +137,10 @@ const Filter = () => {
                         <select
                             className='merchantInput'
                             type={`text`}
+                            onChange={(e) => dispatch(setFilter({
+                                type: FILTER_ACTIONS.FILTER_MERCHANT,
+                                payload: e.target.value
+                            }))}
                         >
                             <option defaultValue={''}>select</option>
                             {
@@ -128,6 +156,7 @@ const Filter = () => {
 
                     <div className='mt-5 d-flex align-items-center justify-content-center'>
                         <button
+                            onClick={handleClearFilter}
                             className='clearFilter'
                         >Clear Filter</button>
                     </div>

@@ -5,7 +5,7 @@ const LazyHome = React.lazy(() => import('../page/Home/Home'));
 const LazyRegister = React.lazy(() => import('../page/auth/Register'));
 const LazProfile = React.lazy(() => import('../page/profile/Profile'));
 const LazyLogin = React.lazy(() => import('../page/auth/Login'));
-
+const LazyForget = React.lazy(() => import('../page/auth/ForgetPassword'))
 
 
 
@@ -31,6 +31,10 @@ export function Route(){
         {
             path: '*',
             element: <NotFound />
+        },
+        {
+            path:'/forgetPassword',
+            element:<LazyForget />
         }
 
     ])

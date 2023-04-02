@@ -1,5 +1,7 @@
 .loginWrapper,
-.registerWrapper {
+.registerWrapper,
+.forgetWrapper
+ {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -9,8 +11,24 @@
     background: linear-gradient(to left, #d59983, #bdb3b3);
 }
 
+.flexCont{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .forgetPassword{
+    color: #504e4e;
+    font-size: 14px;
+  }
+  
+  .forgetPassword:hover{
+    color: var(--white-color);
+  }
+
 .loginFormWrap,
-.registerFormWrap {
+.registerFormWrap,
+.forgetFormWrap {
     margin-top: -100px;
     display: flex;
     justify-content: center;

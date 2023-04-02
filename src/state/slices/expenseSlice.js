@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
+import { FILTER_ACTIONS } from "../actions/action";
 const initialState = {
   expenses: [],
   filter: ''
@@ -16,8 +15,11 @@ const expenseSlice = createSlice({
     setFilter: (state, action) => {
         state.filter = action.payload;  
     },
+    clearFilter: (state) => {
+        state.filter = '';
+    },
   },
 });
 
-export const { setExpenses, setFilter } = expenseSlice.actions;
+export const { setExpenses, setFilter , clearFilter} = expenseSlice.actions;
 export default expenseSlice.reducer;

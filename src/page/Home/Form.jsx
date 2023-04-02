@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState, useRef} from "react";
 import { useAddExpenseMutation , useUpdateExpenseMutation} from "../../services/expenses";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
@@ -9,17 +9,15 @@ import { storage } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 
-
-
-
 const Form = ({ setShow, show, update, setUpdate }) => {
   const [add, { isLoading }] = useAddExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation()
   const [user] = useAuthState(auth)
   let uid = user?.uid
 
-  const { id, date, merchant, total, status, comment } = update
+  const { id, date, merchant, total, status, comment , receipt} = update
 
+  console.log(update)
 
   const [data, setData] = useState({
     id: "" || id,
@@ -28,27 +26,42 @@ const Form = ({ setShow, show, update, setUpdate }) => {
     total: "" || total,
     status: "" || status,
     comment: "" || comment,
-    receipt:undefined
+    receipt:undefined || receipt
   });
+
+  const src = 'https://firebasestorage.googleapis.com/v0/b/expense-manager-a8707.appspot.com/o/files%2Freceipt.jpg?alt=media&token=3cc18889-dce5-4bcf-b6e0-752ab13ede15'
 
   // state for file upload
   const [receiptImage, setReceiptImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
 
-
+  const fileInput = useRef(null)
   // function to select file
   const selectFile = (event) => {
-    const file = event.target[0]?.files[0]
+    event.preventDefault();
+
+    const file = fileInput.current.files[0];
+    console.log(file)
     if(!file) return 
 
     const storageRef = ref(storage, `files/${file.name}`);
-
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on("state_changed", (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       setProgress(progress);
+      if (progress === 100) {
+        toast.info(`Receipt upload is ${progress}% done`, {
+          position: 'top-center',
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
       console.log("Upload is " + progress + "% done");
     }, 
     // function to handle error
@@ -245,15 +258,17 @@ const Form = ({ setShow, show, update, setUpdate }) => {
               className="input file"
               type={`file`}
               name="file"
+              ref={fileInput}
               multiple 
               accept="image/*"
               onChange={selectFile}
             />
-           {
-            receiptImage &&
+           {(receipt || receiptImage) &&
+            (
             <div className="receiptContainer">
-              <img src={receiptImage} alt="" />
-           </div>
+               <img src={receipt || receiptImage} alt="" />
+            </div>
+            )
            }
           </div>
         </div>

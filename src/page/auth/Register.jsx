@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   EyeIcon,
@@ -9,7 +9,6 @@ import {
   GoogleIcon,
 } from "../../asset/icon/Icon";
 import "../../asset/styles/auth/auth.css";
-import { useState} from "react";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -19,13 +18,13 @@ import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { BeatLoader } from "react-spinners";
 import { validatePassword } from "../../helpers/validatePassword";
-import {} from "firebase/auth";
+import { checkRegisterError, checkGoogleError } from "../../helpers/checkError";
 
 const Register = () => {
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  
   const navigate = useNavigate();
 
   // Redirect to login page
@@ -72,57 +71,8 @@ const Register = () => {
           redirect();
         }, 2500);
       } catch (error) {
-        console.log(error.code);
-        switch (error.code) {
-          case "auth/email-already-in-use":
-            toast.error("Email is already in use", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            break;
-          case "auth/invalid-email":
-            toast.error("Invalid email", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            break;
-          case "auth/weak-password":
-            toast.error("Password is too weak", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            break;
-          default:
-            toast.error("Failed to create account. try again", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            break;
-        }
+        checkRegisterError(error.code)
+
       }
       setIsLoading(false);
     }
@@ -151,103 +101,7 @@ const Register = () => {
         navigate("/");
       }, 2500);
     } catch (error) {
-      switch (error.code) {
-        case "auth/account-exists-with-different-credential":
-          toast.error("Account already exists with different credential", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-        case "auth/invalid-credential":
-          toast.error("Invalid credential", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-        case "auth/operation-not-allowed":
-          toast.error("Operation not allowed", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-        case "auth/user-disabled":
-          toast.error("Your account has been disabled", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-        case "auth/user-not-found":
-          toast.error("Account does not exist", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-        case "auth/wrong-password":
-          toast.error("Wrong password. Try again", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          break;
-          case "auth/popup-closed-by-user":
-            toast.warning("Popup closed by you", {
-              position: "top-center",
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            })
-            break;
-        default:
-          toast.error("Something went wrong", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-      }
+      checkGoogleError(error.code);
     }
   };
 

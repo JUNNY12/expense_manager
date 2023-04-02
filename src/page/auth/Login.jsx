@@ -10,13 +10,29 @@ import {
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
 import { BeatLoader } from "react-spinners"
+import { checkGoogleError, checkLoginError } from '../../helpers/checkError'
 
 
 const Login = () => {
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [rememberMe, setRememberMe] = useState(false)
+    const [loginCredentials, setLoginCredentials] = useState({
+        email: '',
+        password: ''
+    })
 
-    const navigate = useNavigate()
+    //handle input Change
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setLoginCredentials(prev => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+    }
 
     //toggle password visibility
     const inputType = showPassword ? 'text' : 'password'
@@ -24,11 +40,35 @@ const Login = () => {
         setShowPassword(!showPassword)
     }
 
+    //handle remember me
+    const handleRememberMe = (e) => {
+        const { checked } = e.target
+        setRememberMe(checked)
+        localStorage.setItem('rememberMe', checked)
+    }
 
-    //focus on input field
+    //ref for input field
     const inputRef = useRef(null)
+    const passwordRef = useRef(null)
+
+    //useEffect 
     useEffect(() => {
         inputRef.current.focus()
+
+        //get login credentials from local storage
+        if (localStorage.getItem('loginCredentials')) {
+            const { email, password } = JSON.parse(localStorage.getItem('loginCredentials'))
+            setLoginCredentials({
+                email,
+                password
+            })
+        }
+        //get remember me value from local storage
+        const rememberMeValue = localStorage.getItem('rememberMe')
+        if (rememberMeValue) {
+            setRememberMe(JSON.parse(rememberMeValue))
+        }
+
     }, [])
 
     //handle login
@@ -49,91 +89,31 @@ const Login = () => {
                     progress: undefined,
                     theme: "light",
                 })
-            email.value = ''
-            password.value = ''
+            //redirect to home page
             setTimeout(() => {
                 navigate('/')
             }, 1000)
+            //save login credentials to local storage
+            if (rememberMe) {
+                localStorage.setItem('loginCredentials', JSON.stringify(loginCredentials))
+            }
+            else {
+                localStorage.removeItem('loginCredentials')
+            }
+
+            //clear input field
+            email.value = ''
+            password.value = ''
         }
         catch (error) {
-            switch (error.code) {
-                case 'auth/invalid-email':
-                    toast.error('Invalid email address',
-                        {
-                            position: 'top-center',
-                            autoClose: 1000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        }
-                    )
-                    break;
-                case 'auth/user-disabled':
-                    toast.error('Your account has been disabled',
-                        {
-                            position: 'top-center',
-                            autoClose: 1000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        }
-                    )
-
-                    break;
-                case 'auth/user-not-found':
-                    toast.error('Account does not exist',
-                        {
-                            position: 'top-center',
-                            autoClose: 1000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        }
-                    )
-                    break;
-                case 'auth/wrong-password':
-                    toast.error('Wrong password. Try again',
-                        {
-                            position: 'top-center',
-                            autoClose: 1000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        })
-                    break;
-                default:
-                    toast.error('Something went wrong',
-                        {
-                            position: 'top-center',
-                            autoClose: 1000,
-                            hideProgressBar: true,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        }
-                    )
-            }
+            checkLoginError(error.code)
         }
         setIsLoading(false)
     };
 
     //handle google login
     const provider = new GoogleAuthProvider()
-    const handleGoogleLogin = async() => {
+    const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
             // The signed-in user info.
@@ -156,103 +136,7 @@ const Login = () => {
             }, 2500)
 
         } catch (error) {
-            switch (error.code) {
-                case 'auth/account-exists-with-different-credential':
-                    toast.error('Account already exists with different credential', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case 'auth/invalid-credential':
-                    toast.error('Invalid credential', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case 'auth/operation-not-allowed':
-                    toast.error('Operation not allowed', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case 'auth/user-disabled':
-                    toast.error('Your account has been disabled', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case 'auth/user-not-found':
-                    toast.error('Account does not exist', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case "auth/popup-closed-by-user":
-                    toast.warning("Popup closed by you", {
-                        position: "top-center",
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                case 'auth/wrong-password':
-                    toast.error('Wrong password. Try again', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-                    break;
-                default:
-                    toast.error('Something went wrong', {
-                        position: 'top-center',
-                        autoClose: 1000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    })
-            }
+            checkGoogleError(error.code)
         }
     };
 
@@ -278,6 +162,8 @@ const Login = () => {
                             type={`email`}
                             aria-label='email'
                             placeholder='Enter your email'
+                            onChange={handleChange}
+                            value={loginCredentials.email}
                         />
                     </div>
 
@@ -286,6 +172,7 @@ const Login = () => {
                             <PasswordIcon />
                         </div>
                         <input
+                            ref={passwordRef}
                             required
                             aria-required='true'
                             className='loginInput'
@@ -293,6 +180,8 @@ const Login = () => {
                             type={inputType}
                             aria-label='password'
                             placeholder='Enter your password'
+                            onChange={handleChange}
+                            value={loginCredentials.password}
                         />
                         <button
                             className='eye'
@@ -308,9 +197,18 @@ const Login = () => {
 
                     </div>
 
-                    <div className='mb-2'>
-                        <input id='check' type="checkbox" />
-                        <label htmlFor="check" className='ms-2 check'>Remember Me</label>
+                    <div className='mb-2 flexCont'>
+                        <div>
+                            <input id='check'
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={handleRememberMe}
+                            />
+                            <label htmlFor="check" className='ms-2 check'>Remember Me</label>
+                        </div>
+                        <div>
+                            <Link className='forgetPassword' to='/forgetPassword'>Forgot Password</Link>
+                        </div>
                     </div>
 
                     <button className='loginBtn btn-2'>

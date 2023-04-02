@@ -77,6 +77,32 @@
     color: #504e4e;
 }
 
+.editProfile{
+    margin-top: 6rem;
+    padding:0 2rem 0 2em;
+}
+
+.editProfile button{
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    outline: none;
+    background: linear-gradient(0deg, #e1b7a8 0%, #d59983 100%);
+    color: white;
+    font-weight: 600;
+    transition: 0.3s linear;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+        margin-top: 0.5rem;
+}
+
+.editProfile button:hover{
+    background: linear-gradient(0deg, #d59983 0%, #e1b7a8 100%);
+    transition: 0.3s linear;
+}
+
 .link{
     text-decoration: none;
     color: #504e4e;
@@ -99,6 +125,11 @@
     height: 35px;
     border: 1.5px solid #504e4e;
     outline: none;
+    text-indent: 8px;
+    border-radius: 3px;
+}
+.userEmail{
+    font-size: 20px;
 }
 
 .profileInput input:focus,
@@ -173,7 +204,9 @@ a{
         height: 100px;
     }
 
-
+.userEmail{
+    font-size: 12px;
+}
     .profileInput input,
     .profileInput textarea{
         width: 280px;

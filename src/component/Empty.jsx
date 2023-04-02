@@ -2,7 +2,9 @@ import React from 'react'
 
 const Empty = () => {
   return (
-    <div className='text-center fs-3' >Your Record is Empty</div>
+    <tr className='text-center fs-3' >
+      <td colSpan='7'>No Expense Addyet</td>
+    </tr>
   )
 }
 
