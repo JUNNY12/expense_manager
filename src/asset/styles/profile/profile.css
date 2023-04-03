@@ -132,6 +132,7 @@
     font-size: 20px;
 }
 
+
 .profileInput input:focus,
 .profileInput textarea:focus{
     border-left: 4px solid #e1b7a8;
@@ -194,6 +195,7 @@ a{
     .profileHeader h1{
         position: absolute;
         top: 30px;
+        text-align: center;
     }
 }
 

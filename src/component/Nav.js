@@ -13,8 +13,8 @@ const Nav = () => {
       .then(() => {
 
         // Sign-out successful
-        console.log('User signed out');
-        toast.success('User signed out', {
+        // console.log('User signed out');
+        toast.success('Signed out', {
           position: 'top-center',
           autoClose: 1000,
           hideProgressBar: true,
@@ -29,7 +29,7 @@ const Nav = () => {
       .catch((error) => {
 
         // An error happened
-        console.log(error);
+        // console.log(error);
       });
   }
 

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FILTER_ACTIONS } from "../actions/action";
+// import { FILTER_ACTIONS } from "../actions/action";
 const initialState = {
   expenses: [],
   filter: ''

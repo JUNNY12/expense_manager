@@ -1,4 +1,4 @@
-import profileImage from "../../asset/images/profileImage.webp"
+import profileImg from "../../asset/images/profileImg.jpg"
 import { BackArrow } from '../../asset/icon/Icon'
 import { Link, useNavigate } from 'react-router-dom'
 import "../../asset/styles/profile/profile.css"
@@ -12,7 +12,7 @@ import { updateProfile, updateEmail, updatePassword, EmailAuthProvider } from "f
 import { reauthenticateWithCredential } from "firebase/auth"
 import { toast } from "react-toastify"
 import { storage } from "../../firebase"
-import {ref} from "firebase/storage"
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 
 
 const Profile = () => {
@@ -27,8 +27,9 @@ const Profile = () => {
         email: '' || user?.email,
     })
     const [updatedDisplayName, setUpdatedDisplayName] = useState('')
-
     const [url, setUrl] = useState('')
+    const [updateUrl, setUpdateUrl] = useState('')
+
     //currentUser is the user that is currently logged in
     const currentUser = user?.auth?.currentUser
     const imageRef = useRef(null)
@@ -51,13 +52,12 @@ const Profile = () => {
         return null;
     }
 
-    console.log(user)
+    // console.log(user)
 
     const { displayName, email } = values
 
-
-
-  
+    const img = user?.photoURL
+    // console.log(img)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -81,18 +81,18 @@ const Profile = () => {
                 if (email !== user?.email) {
                     updateEmail(currentUser, email)
                         .then(() => {
-                            console.log('email updated')
+                            // console.log('email updated')
                         })
                         .catch((error) => {
-                            console.log(error)
+                            // console.log(error)
                         })
                 }
                 // check if the user has changed their display name
                 if (displayName !== user?.displayName) {
                     updateProfile(currentUser, { displayName })
                         .then(() => {
-                            console.log('display name updated')
-                            toast.success('Display name updated successfully',{
+                            // console.log('display name updated')
+                            toast.success('Display name updated successfully', {
                                 position: 'top-center',
                                 autoClose: 1000,
                                 hideProgressBar: true,
@@ -104,10 +104,10 @@ const Profile = () => {
                             setUpdatedDisplayName(displayName)
                         })
                         .catch((error) => {
-                            console.log(error)
+                            // console.log(error)
                             switch (error.code) {
                                 case 'auth/invalid-display-name':
-                                    toast.error('Display name must be between 3 and 50 characters',{
+                                    toast.error('Display name must be between 3 and 50 characters', {
                                         position: 'top-center',
                                         autoClose: 1000,
                                         hideProgressBar: true,
@@ -124,10 +124,10 @@ const Profile = () => {
                 }
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
                 switch (error.code) {
                     case 'auth/wrong-password':
-                        toast.error('Wrong password',{
+                        toast.error('Wrong password', {
                             position: 'top-center',
                             autoClose: 1000,
                             hideProgressBar: true,
@@ -142,37 +142,54 @@ const Profile = () => {
                 }
             })
     }
-    
-    const handleImageUpload = (e) => {
-      e.preventDefault();
-      const file = imageRef.current.files[0];
-      const imageRefOfUser = ref(storage, 'images/' + currentUser.uid);
 
-      const userRef = imageRefOfUser.child(file.name);
-    
-      userRef.put(file).then(() => {
-        console.log('image uploaded');
-    
-        userRef.getDownloadURL().then((url) => {
-          currentUser.updateProfile({
-            photoURL: url
-          }).then(() => {
-            console.log('profile image updated');
-            setUrl(url);
-          }).catch((error) => {
-            console.log(error);
-          });
-        }).catch((error) => {
-          console.log(error);
+
+    const handleImageUpload = (e) => {
+        const file = imageRef.current.files[0];
+
+        const storageRef = ref(storage, `profile/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed', (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // console.log('Upload is ' + progress + '% done');
+        }, (error) => {
+            // console.log(error)
+        }, () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                setUrl(downloadURL)
+                updateProfile(currentUser, { photoURL: downloadURL })
+                    .then(() => {
+                        // console.log('photo url updated')
+                        toast.success('Profile image updated successfully', {
+                            position: 'top-center',
+                            autoClose: 1000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        })
+                        //get the updated photo url
+                        setUpdateUrl(downloadURL)
+                    })
+                    .catch((error) => {
+                        // console.log(error)
+                    })
+            });
         });
-      });
-    };
-    
+    }
+
 
     return (
         <section>
             <div className='profileHeader'>
-                <h1 className={user?.email ? 'userEmail' : ''}>{updatedDisplayName ||user?.displayName || user?.email}</h1>
+                {
+                    user?.displayName && user?.email
+                        ? <h1 className='userDisplayName'>{updatedDisplayName || user?.displayName}</h1>
+                        : <h1>{user?.email || user?.displayName}</h1>
+                }
                 <div className='back'>
                     <Link className='link' to={`/`}><BackArrow /></Link>
                 </div>
@@ -190,7 +207,7 @@ const Profile = () => {
                             role="button"
                             title="Change Profile Image"
                         >
-                            <img src={profileImage || url} alt="Profile User" />
+                            <img src={updateUrl || img || profileImg} alt="Profile User" />
                             <div className="photoIcon">
                                 <PhotoIcon />
                             </div>

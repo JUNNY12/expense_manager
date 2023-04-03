@@ -178,6 +178,7 @@ td:last-child {
 
 .inputWrapper {
   margin-bottom: 0.5em;
+  position: relative;
 }
 
 .input {
@@ -265,7 +266,7 @@ td:last-child {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 1.5em;
-  z-index: 100000;
+  z-index: 10;
 }
 
 .deleteBtn {
@@ -326,16 +327,21 @@ td:last-child {
   width: 280px;
   position: fixed;
   height: 100%;
+  z-index:8;
 }
 
-.progress{
-  background: linear-gradient(to right, #d59983, #bdb3b3);
+.progressPosition .progress{
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
 
+.progressPosition{
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 3px;
+}
 
 .clearFilter {
   outline: none;
@@ -675,13 +681,21 @@ td:last-child {
   }
 
   .receiptContainer {
-    height: 6em;
-    width: 6em;
+    height: 4em;
+    width: 4em;
     padding-bottom: 1em;
   }
 
+
+  .inputWrapper{
+    margin-bottom:0;
+  }
   .closeBtn {
     top: 0.7em;
+  }
+
+  .input.textarea{
+    height: 35px;
   }
 
 
@@ -785,6 +799,8 @@ td:last-child {
     width: 280px;
     height: 150px;
   }
+
+
 }
 
 @media all and (max-width:375px) {

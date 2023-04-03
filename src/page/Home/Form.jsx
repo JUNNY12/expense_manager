@@ -1,5 +1,5 @@
-import { useState, useRef} from "react";
-import { useAddExpenseMutation , useUpdateExpenseMutation} from "../../services/expenses";
+import { useState, useRef } from "react";
+import { useAddExpenseMutation, useUpdateExpenseMutation } from "../../services/expenses";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase";
 import { BeatLoader } from "react-spinners";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { isEmptyObject } from "../../helpers/checkObject";
 import { storage } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-
+import { ProgressBar } from "react-bootstrap";
 
 const Form = ({ setShow, show, update, setUpdate }) => {
   const [add, { isLoading }] = useAddExpenseMutation();
@@ -15,9 +15,9 @@ const Form = ({ setShow, show, update, setUpdate }) => {
   const [user] = useAuthState(auth)
   let uid = user?.uid
 
-  const { id, date, merchant, total, status, comment , receipt} = update
+  const { id, date, merchant, total, status, comment, receipt } = update
 
-  console.log(update)
+  // console.log(update)
 
   const [data, setData] = useState({
     id: "" || id,
@@ -26,69 +26,65 @@ const Form = ({ setShow, show, update, setUpdate }) => {
     total: "" || total,
     status: "" || status,
     comment: "" || comment,
-    receipt:undefined || receipt
+    receipt: undefined || receipt
   });
 
-  const src = 'https://firebasestorage.googleapis.com/v0/b/expense-manager-a8707.appspot.com/o/files%2Freceipt.jpg?alt=media&token=3cc18889-dce5-4bcf-b6e0-752ab13ede15'
 
   // state for file upload
   const [receiptImage, setReceiptImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
+  const [updateUrl, setUpdateUrl] = useState(undefined)
 
   const fileInput = useRef(null)
   // function to select file
-  const selectFile = (event) => {
+  const selectFile = async (event) => {
     event.preventDefault();
 
     const file = fileInput.current.files[0];
-    console.log(file)
-    if(!file) return 
+    // console.log(file)
+    if (!file) return
 
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on("state_changed", (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       setProgress(progress);
-      if (progress === 100) {
-        toast.info(`Receipt upload is ${progress}% done`, {
-          position: 'top-center',
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-      }
-      console.log("Upload is " + progress + "% done");
-    }, 
-    // function to handle error
-    (error) => {
-      alert(error.message)
+
+      // console.log("Upload is " + progress + "% done");
     },
-    // function to get download url
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        setReceiptImage(downloadURL)
-        setData((prevData) => {
-          return {
-            ...prevData,
-            receipt: downloadURL,
-          };
+      // function to handle error
+      (error) => {
+        alert(error.message)
+      },
+      // function to get download url
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+
+          //getting the download url and setting it to the state
+          setReceiptImage(downloadURL)
+          //setting the download url to the  update state
+          setUpdateUrl(downloadURL)
+
+          //setting the download url to the data state to be posted
+          setData((prevData) => {
+            return {
+              ...prevData,
+              receipt: downloadURL,
+            };
+          });
         });
       });
-    });
-    
+
   };
 
   // function to close the form
   const handleClose = () => {
     setShow(false)
-   
+
     //check if update is empty
-    if(!isEmptyObject(update)){
+    if (!isEmptyObject(update)) {
       setUpdate({})
     }
   }
@@ -123,27 +119,33 @@ const Form = ({ setShow, show, update, setUpdate }) => {
         draggable: true,
         progress: undefined,
       })
-      console.log('success')
+      // console.log('success')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
     setShow(false)
   }
 
   // function to handle update expense
-  const handleUpdateExpense = async (e) => {  
+  const handleUpdateExpense = async (e) => {
     e.preventDefault()
+
     try {
+
+      const body = {
+        date: data.date,
+        merchant: data.merchant,
+        total: data.total,
+        status: data.status,
+        comment: data.comment,
+      }
+      if (receiptImage !== undefined) {
+        body.receipt = receiptImage
+      }
       await updateExpense({
         id,
         uid,
-        body: {
-          date:data.date,
-          merchant:data.merchant,
-          total:data.total,
-          status:data.status,
-          comment:data.comment
-        }
+        body
       })
       toast.success('Expense updated successfully', {
         position: 'top-center',
@@ -154,12 +156,12 @@ const Form = ({ setShow, show, update, setUpdate }) => {
         draggable: true,
         progress: undefined,
       })
-      console.log('success')
+      // console.log('success')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
     setShow(false)
-    if(!isEmptyObject(update)){
+    if (!isEmptyObject(update)) {
       setUpdate({})
     }
   }
@@ -259,17 +261,25 @@ const Form = ({ setShow, show, update, setUpdate }) => {
               type={`file`}
               name="file"
               ref={fileInput}
-              multiple 
+              multiple
               accept="image/*"
               onChange={selectFile}
             />
-           {(receipt || receiptImage) &&
-            (
-            <div className="receiptContainer">
-               <img src={receipt || receiptImage} alt="" />
+
+
+            {
+              // show receipt if it exists
+              (updateUrl || receipt || receiptImage) &&
+              (
+                <div className="receiptContainer">
+                  <img src={updateUrl || receipt || receiptImage} alt="" />
+                </div>
+              )
+            }
+
+            <div className="progressPosition">
+              {progress > 0 && (<ProgressBar striped animated now={progress} variant="success" label={`${progress}%`} />)}
             </div>
-            )
-           }
           </div>
         </div>
 
@@ -280,9 +290,9 @@ const Form = ({ setShow, show, update, setUpdate }) => {
             }</button>
             :
             <button
-            type="submit"
-            onClick={handleUpdateExpense}
-             className="submit">Save Changes</button>
+              type="submit"
+              onClick={handleUpdateExpense}
+              className="submit">Save Changes</button>
         }
       </form>
     </div>

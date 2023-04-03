@@ -1,6 +1,6 @@
 import React from 'react'
 import { formatPrice } from '../../helpers/formatCurrency'
-import { Pencil, TrashIcon,Plus } from '../../asset/icon/Icon'
+import { Pencil, TrashIcon, Plus } from '../../asset/icon/Icon'
 import { useGetExpensesQuery, useDeleteExpenseMutation } from '../../services/expenses'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase'
@@ -14,7 +14,8 @@ import { FILTER_ACTIONS } from '../../state/actions/action'
 import { setFilter } from '../../state/slices/expenseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFilteredExpenses } from '../../helpers/getFilteredExpenses'
-
+import { storage } from '../../firebase'
+import { deleteObject, ref } from 'firebase/storage'
 
 const Table = () => {
 
@@ -25,13 +26,12 @@ const Table = () => {
     let uid = user?.uid
     const { isLoading } = useGetExpensesQuery(uid)
     const [deleteExpense] = useDeleteExpenseMutation()
-    
-    const dispatch = useDispatch()
-    const {expenses, filter} = useSelector((state) => state.expense)
-    const filterExpenses = getFilteredExpenses(expenses, filter)
 
-    console.log(filterExpenses)
-    console.log(filter)
+    const dispatch = useDispatch()
+    const { expenses, filter } = useSelector((state) => state.expense)
+    const filterExpenses = getFilteredExpenses(expenses, filter)
+    // console.log(filterExpenses)
+    // console.log(filter)
 
     // function to handle search
     const handleSearch = (e) => {
@@ -45,12 +45,15 @@ const Table = () => {
 
 
     // function to handle delete expense
-    const handleDeleteExpense = (id) => {
+    const handleDeleteExpense = (id, receipt) => {
         try {
             deleteExpense({
                 id,
                 uid
             })
+
+            removeImageFromStorage(receipt)
+
             toast.success('Expense deleted successfully', {
                 position: 'top-center',
                 autoClose: 1000,
@@ -60,14 +63,16 @@ const Table = () => {
                 draggable: true,
                 progress: undefined,
             })
+
         }
         catch (error) {
-            console.log(error)
+            // console.log(error)
         }
+
     }
 
     // function to set update data props
-    const handleSetUpdate = (id, date, merchant, total, status, comment,receipt) => {
+    const handleSetUpdate = (id, date, merchant, total, status, comment, receipt) => {
         setUpdate({
             ...update,
             id,
@@ -79,7 +84,6 @@ const Table = () => {
             receipt
         })
         setShow(true)
-        console.log(update)
     }
 
     //conditional rendering
@@ -97,7 +101,7 @@ const Table = () => {
         content = (
             <tr className='empty'>
                 <td colSpan='7' className='text-center'>
-                    <h5 className='text-danger'>No expenses found</h5>
+                    <h5 className='text-danger'>OOps! No expenses found</h5>
                 </td>
             </tr>
         )
@@ -106,8 +110,7 @@ const Table = () => {
         content = (
             filterExpenses?.map((expense, index) => {
                 // console.log(expense)
-
-                const { id, date, merchant, total, status, comment , receipt} = expense
+                const { id, date, merchant, total, status, comment, receipt } = expense
 
                 return (
                     <tr key={id}>
@@ -123,7 +126,7 @@ const Table = () => {
                                     aria-label='Delete Expense'
                                     title='Delete Expense'
                                     className='deleteBtn'
-                                    onClick={() => handleDeleteExpense(id)}
+                                    onClick={() => handleDeleteExpense(id, receipt)}
                                 >
                                     <TrashIcon />
                                 </button>
@@ -150,6 +153,18 @@ const Table = () => {
             </div>
         )
     }
+
+    // function to remove image from storage when deleting expense  
+    async function removeImageFromStorage(image) {
+        try {
+            const imageRef = ref(storage, image)
+            await deleteObject(imageRef)
+            // console.log('image deleted')
+        }
+        catch (error) {
+            // console.log(error)
+        }
+    };
 
     return (
         <div>

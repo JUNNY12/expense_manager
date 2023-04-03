@@ -20,7 +20,6 @@ const Filter = () => {
 
     const handleClearFilter = (e) => {
         e.preventDefault()
-        dispatch(clearFilter())
         dispatch(setFilter({
             type: FILTER_ACTIONS.CLEAR_FILTER,
         }))
@@ -45,7 +44,7 @@ const Filter = () => {
                             className='me-3'
                             onChange={() => dispatch(setFilter({
                                 type: FILTER_ACTIONS.FILTER_STATUS,
-                                payload: 'Complete'
+                                payload: 'Completed'
                             }))}
                         />
                         <label>Completed</label>
