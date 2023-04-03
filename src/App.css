@@ -330,6 +330,11 @@ td:last-child {
   z-index:8;
 }
 
+.empty.noExpenses{
+background-color: white;
+z-index: 4;
+}
+
 .progressPosition .progress{
   display: flex;
   justify-content: center;

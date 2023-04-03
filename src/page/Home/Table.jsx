@@ -99,7 +99,7 @@ const Table = () => {
     }
     else if (filterExpenses?.length === 0 && expenses.length > 0) {
         content = (
-            <tr className='empty'>
+            <tr className='empty noExpenses'>
                 <td colSpan='7' className='text-center'>
                     <h5 className='text-danger'>OOps! No expenses found</h5>
                 </td>
