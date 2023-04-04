@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { auth } from "../../firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 import Loader from "../../component/Loader"
-import { updateProfile, updateEmail, updatePassword, EmailAuthProvider } from "firebase/auth"
+import { updateProfile, updateEmail, EmailAuthProvider } from "firebase/auth"
 import { reauthenticateWithCredential } from "firebase/auth"
 import { toast } from "react-toastify"
 import { storage } from "../../firebase"
@@ -59,75 +59,32 @@ const Profile = () => {
     const img = user?.photoURL
     // console.log(img)
 
+    // console.log(currentUser?.providerData)
+
     const handleSubmit = (e) => {
         e.preventDefault()
+        //user that signed in with google
+        if (currentUser?.providerData[0]?.providerId === 'google.com') {
 
-        //Ask for the user's current password to reauthenticate
-        const password = prompt('Please enter your password to verify your identity')
-        if (!password) {
-            return // Exit if the user cancels the prompt
-        }
+            //check if the user has changed their email to throw an error message
+            if (email !== user?.email) {
+                toast.error('You cannot change your email address', {
+                    position: 'top-center',
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
 
-        //credentials to reauthenticate
-        const credentials = EmailAuthProvider.credential(
-            user?.email,
-            password
-        )
-
-        //reauthenticate the user
-        reauthenticateWithCredential(currentUser, credentials)
-            .then(() => {
-                //check if the user has changed their email 
-                if (email !== user?.email) {
-                    updateEmail(currentUser, email)
-                        .then(() => {
-                            // console.log('email updated')
-                        })
-                        .catch((error) => {
-                            // console.log(error)
-                        })
-                }
-                // check if the user has changed their display name
-                if (displayName !== user?.displayName) {
-                    updateProfile(currentUser, { displayName })
-                        .then(() => {
-                            // console.log('display name updated')
-                            toast.success('Display name updated successfully', {
-                                position: 'top-center',
-                                autoClose: 1000,
-                                hideProgressBar: true,
-                                closeOnClick: true,
-                                pauseOnHover: true,
-                                draggable: true,
-                                progress: undefined,
-                            })
-                            setUpdatedDisplayName(displayName)
-                        })
-                        .catch((error) => {
-                            // console.log(error)
-                            switch (error.code) {
-                                case 'auth/invalid-display-name':
-                                    toast.error('Display name must be between 3 and 50 characters', {
-                                        position: 'top-center',
-                                        autoClose: 1000,
-                                        hideProgressBar: true,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    })
-                                    break;
-                                default:
-                                    break;
-                            }
-                        })
-                }
-            })
-            .catch((error) => {
-                // console.log(error)
-                switch (error.code) {
-                    case 'auth/wrong-password':
-                        toast.error('Wrong password', {
+            // check if the user has changed their display name
+            if (displayName !== user?.displayName) {
+                updateProfile(currentUser, { displayName })
+                    .then(() => {
+                        // console.log('display name updated')
+                        toast.success('Display name updated successfully', {
                             position: 'top-center',
                             autoClose: 1000,
                             hideProgressBar: true,
@@ -136,11 +93,119 @@ const Profile = () => {
                             draggable: true,
                             progress: undefined,
                         })
-                        break;
-                    default:
-                        break;
-                }
-            })
+                        setUpdatedDisplayName(displayName)
+                    })
+                    .catch((error) => {
+                        // console.log(error)
+                        switch (error.code) {
+                            case 'auth/invalid-display-name':
+                                toast.error('Display name must be between 3 and 50 characters', {
+                                    position: 'top-center',
+                                    autoClose: 1000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                })
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+            }
+        }
+
+        else {
+            //Ask for the user's current password to reauthenticate
+            const password = prompt('Please enter your password to verify your identity')
+            if (!password) {
+                return // Exit if the user cancels the prompt
+            }
+
+            //credentials to reauthenticate
+            const credentials = EmailAuthProvider.credential(
+                user?.email,
+                password
+            )
+
+            //reauthenticate the user that signed in with email and password
+            reauthenticateWithCredential(currentUser, credentials)
+                .then(() => {
+                    //check if the user has changed their email 
+                    if (email !== user?.email) {
+                        updateEmail(currentUser, email)
+                            .then(() => {
+                                // console.log('email updated')
+                                toast.success('Email updated successfully', {
+                                    position: 'top-center',
+                                    autoClose: 1000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                })
+                            })
+                            .catch((error) => {
+                                // console.log(error)
+                            })
+                    }
+                    // check if the user has changed their display name
+                    if (displayName !== user?.displayName) {
+                        updateProfile(currentUser, { displayName })
+                            .then(() => {
+                                // console.log('display name updated')
+                                toast.success('Display name updated successfully', {
+                                    position: 'top-center',
+                                    autoClose: 1000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                })
+                                setUpdatedDisplayName(displayName)
+                            })
+                            .catch((error) => {
+                                // console.log(error)
+                                switch (error.code) {
+                                    case 'auth/invalid-display-name':
+                                        toast.error('Display name must be between 3 and 50 characters', {
+                                            position: 'top-center',
+                                            autoClose: 1000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                        })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            })
+                    }
+                })
+                .catch((error) => {
+                    // console.log(error)
+                    switch (error.code) {
+                        case 'auth/wrong-password':
+                            toast.error('Wrong password', {
+                                position: 'top-center',
+                                autoClose: 1000,
+                                hideProgressBar: true,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                            })
+                            break;
+                        default:
+                            break;
+                    }
+                })
+        }
     }
 
 
@@ -260,8 +325,6 @@ const Profile = () => {
                     </div>
                 )
             }
-
-
         </section>
     )
 }

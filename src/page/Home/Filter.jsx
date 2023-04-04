@@ -1,7 +1,7 @@
 import React from 'react'
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { BiDownArrow } from "react-icons/bi"
-import { setFilter, clearFilter } from '../../state/slices/expenseSlice'
+import { setFilter} from '../../state/slices/expenseSlice'
 import { useDispatch } from 'react-redux'
 import { FILTER_ACTIONS } from '../../state/actions/action'
 import { useSelector } from 'react-redux'
@@ -18,11 +18,33 @@ const Filter = () => {
     const uniqueMerchants = [...new Set(expenses.map(expense => expense.merchant))]
 
 
+    const completeRef = useRef()
+    const newRef = useRef()
+    const inprogressRef = useRef()
+    const minRef = useRef()
+    const maxRef = useRef()
+    const fromRef = useRef()
+    const toRef = useRef()
+    const merchantRef = useRef()
+
+    const handleClearRef = () => {
+        completeRef.current.checked = false
+        newRef.current.checked = false
+        inprogressRef.current.checked = false
+        minRef.current.value = ''
+        maxRef.current.value = ''
+        fromRef.current.value = ''
+        toRef.current.value = ''
+        merchantRef.current.value = ''
+    }
+
     const handleClearFilter = (e) => {
         e.preventDefault()
         dispatch(setFilter({
             type: FILTER_ACTIONS.CLEAR_FILTER,
         }))
+
+        handleClearRef()
     }
     return (
         <div className='filter'>
@@ -40,6 +62,7 @@ const Filter = () => {
                     <div>
                         <input
                             type={`radio`}
+                            ref={completeRef}
                             name="status"
                             className='me-3'
                             onChange={() => dispatch(setFilter({
@@ -54,6 +77,7 @@ const Filter = () => {
                         <input
                             className='me-3'
                             type={`radio`}
+                            ref={newRef}
                             name="status"
                             onChange={() => dispatch(setFilter({
                                 type: FILTER_ACTIONS.FILTER_STATUS,
@@ -67,6 +91,7 @@ const Filter = () => {
                         <input
                             className='me-3'
                             name="status"
+                            ref={inprogressRef}
                             type={`checkbox`}
                             onChange={() => dispatch(setFilter({
                                 type: FILTER_ACTIONS.FILTER_STATUS,
@@ -82,6 +107,7 @@ const Filter = () => {
                             <label className='label'>Min:</label>
                             <input
                                 className='min'
+                                ref={minRef}
                                 type={`number`}
                                 onChange={(e) => dispatch(setFilter({
                                     type: FILTER_ACTIONS.FILTER_MIN,
@@ -93,6 +119,7 @@ const Filter = () => {
                         <div>
                             <label className='label'>Max:</label>
                             <input
+                                ref={maxRef}
                                 onChange={(e) => dispatch(setFilter({
                                     type: FILTER_ACTIONS.FILTER_MAX,
                                     payload: e.target.value
@@ -108,6 +135,7 @@ const Filter = () => {
                         <div className='mb-3'>
                             <label className='label'>From:</label>
                             <input
+                                ref={fromRef}
                                 onChange={(e) => dispatch(setFilter({
                                     type: FILTER_ACTIONS.FILTER_FROM_DATE,
                                     payload: e.target.value
@@ -121,6 +149,7 @@ const Filter = () => {
                         <div>
                             <label className='label'>To:</label>
                             <input
+                                ref={toRef}
                                 onChange={(e) => dispatch(setFilter({
                                     type: FILTER_ACTIONS.FILTER_TO_DATE,
                                     payload: e.target.value
@@ -134,6 +163,7 @@ const Filter = () => {
                     <div className="inputWrapper mt-4">
                         <label>Merchant:</label> <br />
                         <select
+                            ref={merchantRef}
                             className='merchantInput'
                             type={`text`}
                             onChange={(e) => dispatch(setFilter({
